@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model t_categorie {
+  idCategorie Int          @id @default(autoincrement()) @db.UnsignedInt
+  catNom      String       @unique @db.VarChar(255)
+  t_activite  t_activite[]
+}
+
+model t_activite {
+  idActivite     Int         @id @default(autoincrement()) @db.UnsignedInt
+  actDescription String      @db.VarChar(1000)
+  actDate        DateTime    @db.Date()
+  actDuree       DateTime    @db.Time()
+  categorie      t_categorie @relation(fields: [fkCategorie], references: [idCategorie])
+  fkCategorie    Int         @db.UnsignedInt
+  ruches         t_ruche[]
+}
+
+model t_apiculteur {
+  idApiculteur      Int        @id @default(autoincrement()) @db.UnsignedInt
+  apiNomUtilisateur String     @unique @db.VarChar(255)
+  apiMotDePasse     String     @db.VarChar(255)
+  t_rucher          t_rucher[]
+}
+
+model t_rucher {
+  idRucher        Int          @id @default(autoincrement()) @db.UnsignedInt
+  rucNumero       Int          @unique @db.UnsignedInt
+  rucNom          String       @db.VarChar(255)
+  rucLocalisation String       @db.VarChar(255)
+  apiculteur      t_apiculteur @relation(fields: [fkApiculteur], references: [idApiculteur])
+  fkApiculteur    Int          @db.UnsignedInt
+  t_ruche         t_ruche[]
+}
+
+model t_couleur {
+  idCouleur  Int       @id @default(autoincrement()) @db.UnsignedInt
+  couNom     String    @unique @db.VarChar(255)
+  couCodeHex String    @db.VarChar(6)
+  t_reine    t_reine[]
+  t_ruche    t_ruche[]
+}
+
+model t_reine {
+  idReine          Int       @id @default(autoincrement()) @db.UnsignedInt
+  reiAnneNaissance Int       @db.Year
+  couleur          t_couleur @relation(fields: [fkCouleur], references: [idCouleur])
+  fkCouleur        Int       @db.UnsignedInt
+  t_ruche          t_ruche[]
+}
+
+model t_ruche {
+  idRuche        Int          @id @default(autoincrement()) @db.UnsignedInt
+  rucNumero      Int          @unique @db.UnsignedInt
+  rucDescription String       @db.VarChar(1000)
+  reine          t_reine      @relation(fields: [fkReine], references: [idReine])
+  fkReine        Int          @db.UnsignedInt
+  rucher         t_rucher     @relation(fields: [fkRucher], references: [idRucher])
+  fkRucher       Int          @db.UnsignedInt
+  couleur        t_couleur    @relation(fields: [fkCouleur], references: [idCouleur])
+  fkCouleur      Int          @db.UnsignedInt
+  activites      t_activite[]
+}
