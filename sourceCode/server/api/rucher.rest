@@ -17,7 +17,13 @@ Content-Type: application/json
 GET {{baseUrl}}
 
 ###
-GET {{baseUrl}}/1 
+GET {{baseUrl}}/1
+
+###
+GET {{baseUrl}}/1/ruches
+
+###
+GET {{baseUrl}}/1/activites
 
 ###
 PATCH {{baseUrl}}/2

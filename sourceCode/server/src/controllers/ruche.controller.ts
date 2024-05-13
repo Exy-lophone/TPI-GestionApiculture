@@ -1,5 +1,5 @@
 import { asyncHandler, status, type ErrorStatus } from '../utils'
-import { rucheDB } from '../database'
+import { rucheDB, activiteDB } from '../database'
 import { rucheParser, ruchePartialParser, idParser } from '../validation'
 
 const create = asyncHandler(async (req, res) => {
@@ -11,6 +11,12 @@ const create = asyncHandler(async (req, res) => {
 const getAll = asyncHandler(async (req, res) => {
     const ruchers = await rucheDB.getAll()
     res.status(status.OK).json(ruchers)
+})
+
+const getAllActivites = asyncHandler(async (req, res) => {
+    const id = idParser.parse(req.params.id)
+    const activites = await activiteDB.getByRucheId(id)
+    res.status(status.OK).json(activites)
 })
 
 const getById = asyncHandler(async (req, res) => {
@@ -42,6 +48,7 @@ const deleteById = asyncHandler(async (req, res) => {
 export const rucheController = {
     create,
     getAll,
+    getAllActivites,
     getById,
     updateById,
     deleteById,

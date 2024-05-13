@@ -1,6 +1,21 @@
 import { prisma } from "../../prisma";
 import type { Ruche, RuchePartial } from '../validation'
 
+const select = {
+    idRuche: true,
+    rucNumero: true,
+    rucDescription: true,
+    reine: {
+        select: {
+            idReine: true,
+            reiAnneNaissance: true,
+            couleur: true
+        }
+    },
+    rucher: true,
+    couleur: true,
+}
+
 const create = async (ruche: Ruche) => {
     return await prisma.t_ruche.create({
         data: {
@@ -14,13 +29,22 @@ const create = async (ruche: Ruche) => {
 }
 
 const getAll = async () => {
-    return await prisma.t_ruche.findMany()
+    return await prisma.t_ruche.findMany({ select })
 }
 
 const getById = async (id: number) => {
     return await prisma.t_ruche.findUnique({
+        select,
         where: {
             idRuche: id
+        }
+    })
+}
+
+const getByRucherId = async (id: number) => {
+    return await prisma.t_ruche.findMany({
+        where: {
+            fkRucher: id
         }
     })
 }
@@ -52,6 +76,7 @@ export const rucheDB = {
     create,
     getAll,
     getById,
+    getByRucherId,
     updateById,
     deleteById,
 }

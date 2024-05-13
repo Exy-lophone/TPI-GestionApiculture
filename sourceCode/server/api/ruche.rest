@@ -7,8 +7,8 @@ POST {{baseUrl}}
 Content-Type: application/json
 
 {
-    "nbr": 2345,
-    "description": "Ruche de kevin",
+    "nbr": 1203,
+    "description": "2ème ruche de kevin",
     "fkReine": 2,
     "fkRucher": 1,
     "fkCouleur": 2
@@ -18,7 +18,10 @@ Content-Type: application/json
 GET {{baseUrl}}
 
 ###
-GET {{baseUrl}}/2
+GET {{baseUrl}}/3
+
+###
+GET {{baseUrl}}/3/activites
 
 ###
 PATCH {{baseUrl}}/2

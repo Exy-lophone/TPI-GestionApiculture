@@ -6,6 +6,9 @@ export const rucheRouter = express.Router()
 rucheRouter.route('/')
     .get(rucheController.getAll)
     .post(rucheController.create)
+
+rucheRouter.route('/:id/activites')
+    .get(rucheController.getAllActivites)
     
 rucheRouter.route('/:id')
     .get(rucheController.getById)
