@@ -1,0 +1,20 @@
+@baseUrl = http://localhost:3000/categorie
+
+@authToken = empty
+
+###
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "name": "Ma catégorie"
+}
+
+###
+GET {{baseUrl}}
+
+###
+GET {{baseUrl}}/1 
+
+###
+DELETE {{baseUrl}}/1

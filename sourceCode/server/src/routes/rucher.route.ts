@@ -1,13 +1,13 @@
 import express from "express"
 import { rucherController } from "../controllers"
 
-export const authRucher = express.Router()
+export const rucherRouter = express.Router()
 
-authRucher.route('/')
+rucherRouter.route('/')
     .get(rucherController.getAll)
     .post(rucherController.create)
     
-authRucher.route('/:id')
+rucherRouter.route('/:id')
     .get(rucherController.getById)
     .patch(rucherController.updateById)
     .delete(rucherController.deleteById)
