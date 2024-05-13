@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3000/auth 
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNTU4Mjg5NiwiZXhwIjoxNzE1NTg2NDk2fQ.B7ePr6QXII_coNPPPux3aeabEmIhuSalzHfZnbSZdgQ
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNTYwMTkyNywiZXhwIjoxNzE1NjA1NTI3fQ.CHgQIjBy8mCHHMnv0IHStpt4AxMi1BlMsjpzy0E-6Rc
 
 ### 
 POST {{baseUrl}}/register 
@@ -21,4 +21,6 @@ Content-Type: application/json
 
 }
 
-### GET {{baseUrl}}/verify Authorization: bearer {{authToken}}
+### 
+GET {{baseUrl}}/verify 
+Authorization: bearer {{authToken}}
