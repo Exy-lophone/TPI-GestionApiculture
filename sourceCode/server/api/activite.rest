@@ -1,0 +1,30 @@
+@baseUrl = http://localhost:3000/activite
+
+@authToken = empty
+
+###
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "description": "description de l'activité",
+    "dateTime": "2024-05-20T00:45:30Z",
+    "fkCategorie": 2
+}
+
+###
+GET {{baseUrl}}
+
+###
+GET {{baseUrl}}/2 
+
+###
+PATCH {{baseUrl}}/2
+Content-Type: application/json
+
+{
+    "description": "Nouvelle description"
+}
+
+###
+DELETE {{baseUrl}}/3

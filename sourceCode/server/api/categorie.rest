@@ -7,7 +7,7 @@ POST {{baseUrl}}
 Content-Type: application/json
 
 {
-    "name": "Ma catégorie"
+    "name": "nourrissement"
 }
 
 ###
