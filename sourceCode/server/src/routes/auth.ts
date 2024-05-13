@@ -1,9 +1,10 @@
 import express from "express"
+import { authController } from "../controllers"
 
 export const authRouter = express.Router()
 
 authRouter
-    .post('/register', async (req,res) => {res.status(200).json({msg:'register route'})})
-    .post('/login', async (req,res) => {res.status(200).json({msg:'login route'})})
+    .post('/register', authController.register)
+    .post('/login', authController.login)
 
 // router.get('/verify',verifyToken,(req,res,next) => res.status(status.OK).json({authentication: true}))

@@ -1,0 +1,24 @@
+@baseUrl = http://localhost:3000/auth 
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNTU4Mjg5NiwiZXhwIjoxNzE1NTg2NDk2fQ.B7ePr6QXII_coNPPPux3aeabEmIhuSalzHfZnbSZdgQ
+
+### 
+POST {{baseUrl}}/register 
+Content-Type: application/json
+
+{
+
+    "username": "kevin", "password": "1234"
+
+}
+
+### 
+POST {{baseUrl}}/login 
+Content-Type: application/json
+
+{
+
+    "username": "kevin", "password": "1234"
+
+}
+
+### GET {{baseUrl}}/verify Authorization: bearer {{authToken}}
