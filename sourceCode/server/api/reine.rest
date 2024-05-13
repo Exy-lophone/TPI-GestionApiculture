@@ -1,0 +1,21 @@
+@baseUrl = http://localhost:3000/reine
+
+@authToken = empty
+
+###
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "birthYear": 2022,
+    "fkCouleur": 2
+}
+
+###
+GET {{baseUrl}}
+
+###
+GET {{baseUrl}}/1
+
+###
+DELETE {{baseUrl}}/1

@@ -1,0 +1,32 @@
+@baseUrl = http://localhost:3000/ruche
+
+@authToken = empty
+
+###
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "nbr": 2345,
+    "description": "Ruche de kevin",
+    "fkReine": 2,
+    "fkRucher": 1,
+    "fkCouleur": 2
+}
+
+###
+GET {{baseUrl}}
+
+###
+GET {{baseUrl}}/2
+
+###
+PATCH {{baseUrl}}/2
+Content-Type: application/json
+
+{
+    "description": "La super ruche de Kevin"
+}
+
+###
+DELETE {{baseUrl}}/2

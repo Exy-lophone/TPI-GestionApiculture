@@ -1,4 +1,7 @@
 export * from './auth.route'
+export * from './ruche.route'
 export * from './rucher.route'
 export * from './categorie.route'
 export * from './activite.route'
+export * from './couleur.route'
+export * from './reine.route'

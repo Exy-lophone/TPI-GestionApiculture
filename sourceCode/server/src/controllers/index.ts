@@ -1,4 +1,7 @@
 export * from './auth.controller'
 export * from './rucher.controller'
+export * from './ruche.controller'
 export * from './categorie.controller'
 export * from './activite.controller'
+export * from './couleur.controller'
+export * from './reine.controller'

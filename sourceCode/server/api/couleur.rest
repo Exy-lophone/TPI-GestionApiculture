@@ -1,0 +1,21 @@
+@baseUrl = http://localhost:3000/couleur
+
+@authToken = empty
+
+###
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "name": "vert",
+    "hexCode": "00ff00"
+}
+
+###
+GET {{baseUrl}}
+
+###
+GET {{baseUrl}}/1
+
+###
+DELETE {{baseUrl}}/1
