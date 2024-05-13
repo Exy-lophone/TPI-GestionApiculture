@@ -1,0 +1,31 @@
+@baseUrl = http://localhost:3000/rucher
+
+@authToken = empty
+
+###
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "nbr": 2345,
+    "name": "Rucher de Kevin",
+    "localisation": "Rue des ruches, 1024 Lausanne",
+    "fkApiculteur": 2
+}
+
+###
+GET {{baseUrl}}
+
+###
+GET {{baseUrl}}/1 
+
+###
+PATCH {{baseUrl}}/2
+Content-Type: application/json
+
+{
+    "name": "Les Ruchers de kevin"
+}
+
+###
+DELETE {{baseUrl}}/2

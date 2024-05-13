@@ -1,14 +1,16 @@
 import { config } from './utils/index'
 import express from 'express'
 import cors from 'cors'
-import { authRouter } from './routes'
+import { authRouter, authRucher } from './routes'
+
 //init
 const app = express()
 
 //Set up middlewares
 app.use(cors())
 app.use(express.json())
-app.use('/auth',authRouter)
+app.use('/auth', authRouter)
+app.use('/rucher', authRucher)
 
 //Start listening
 app.listen(process.env.PORT, () => console.log(`Server started at: http://localhost:${config.PORT}`))
