@@ -4,7 +4,7 @@ import { activiteParser, activitePartialParser, idParser } from '../validation'
 
 const create = asyncHandler(async (req, res) => {
     const activite = activiteParser.parse(req.body)
-    const activiteRecord = await activiteDB.create(activite)
+    const activiteRecord = await activiteDB.createAndConnectToRuche(activite)
     res.status(status.OK_CREATED).json(activiteRecord)
 })
 
@@ -26,6 +26,14 @@ const getById = asyncHandler(async (req, res) => {
     res.status(status.OK).json(activiteRecord)
 })
 
+const getByYear = asyncHandler(async (req, res) => {
+    const year = idParser.parse(req.params.year)
+    const start = year + "-01-01"
+    const end = year + "-12-31"
+    const activites = await activiteDB.getByDateRange(start,end)
+    res.status(status.OK).json(activites)
+})
+
 const updateById = asyncHandler(async (req, res) => {
     const id = idParser.parse(req.params.id)
     const activite = activitePartialParser.parse(req.body)
@@ -43,6 +51,7 @@ export const activiteController = {
     create,
     getAll,
     getById,
+    getByYear,
     updateById,
     deleteById,
 }

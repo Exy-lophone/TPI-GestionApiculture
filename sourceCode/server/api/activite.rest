@@ -16,6 +16,9 @@ Content-Type: application/json
 GET {{baseUrl}}
 
 ###
+GET {{baseUrl}}/year/2024
+
+###
 GET {{baseUrl}}/2 
 
 ###

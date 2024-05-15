@@ -9,7 +9,23 @@ const select = {
     categorie: true
 }
 
-const create = async (activite: Activite) => {
+const createAndConnectToRuche = async (activite: Activite) => {
+    return await prisma.t_activite.create({
+        data: {
+            actDescription: activite.description,
+            actDate: activite.dateTime,
+            actDuree: activite.dateTime,
+            fkCategorie: activite.fkCategorie,
+            ruches: {
+                connect: {
+                    idRuche: activite.fkRuche
+                }
+            }
+        }
+    })
+}
+
+const createAndConnectToRucher = async (activite: Activite) => {
     return await prisma.t_activite.create({
         data: {
             actDescription: activite.description,
@@ -35,6 +51,7 @@ const getById = async (id: number) => {
 
 const getByRucheId = async (id: number) => {
     return await prisma.t_activite.findMany({
+        select,
         where: {
             ruches: {
                 some: {
@@ -47,11 +64,24 @@ const getByRucheId = async (id: number) => {
 
 const getByRucherId = async (id: number) => {
     return await prisma.t_activite.findMany({
+        select,
         where: {
             ruches: {
                 some: {
                     fkRucher: id
                 }
+            }
+        }
+    })
+}
+
+const getByDateRange = async (start: string, end: string) => {
+    return await prisma.t_activite.findMany({
+        select,
+        where: {
+            actDate: {
+                gte: new Date(start),
+                lte: new Date(end),
             }
         }
     })
@@ -80,11 +110,13 @@ const deleteById = async(id: number) => {
 }
 
 export const activiteDB = {
-    create,
+    createAndConnectToRuche,
+    createAndConnectToRucher,
     getAll,
     getById,
     getByRucheId,
     getByRucherId,
+    getByDateRange,
     updateById,
     deleteById,
 }
