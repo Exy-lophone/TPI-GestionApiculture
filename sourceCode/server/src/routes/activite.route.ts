@@ -6,9 +6,14 @@ export const activiteRouter = express.Router()
 activiteRouter.route('/year/:year')
     .get(activiteController.getByYear)
 
+activiteRouter.route('/onRuche')
+    .post(activiteController.createOnRuche)
+
+activiteRouter.route('/onRucher')
+    .post(activiteController.createOnRucher)
+
 activiteRouter.route('/')
     .get(activiteController.getAll)
-    .post(activiteController.create)
 
 activiteRouter.route('/:id')
     .get(activiteController.getById)

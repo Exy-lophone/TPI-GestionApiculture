@@ -4,7 +4,7 @@ export const activiteParser = z.object({
     description: z.string(),
     dateTime: z.string().datetime(),
     fkCategorie: z.number(),
-    fkRuche: z.number(),
+    fkRucheOrRucher: z.number(),
 })
 
 export const activitePartialParser = activiteParser.partial()

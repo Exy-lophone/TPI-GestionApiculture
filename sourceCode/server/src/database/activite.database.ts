@@ -18,7 +18,7 @@ const createAndConnectToRuche = async (activite: Activite) => {
             fkCategorie: activite.fkCategorie,
             ruches: {
                 connect: {
-                    idRuche: activite.fkRuche
+                    idRuche: activite.fkRucheOrRucher
                 }
             }
         }
@@ -26,13 +26,26 @@ const createAndConnectToRuche = async (activite: Activite) => {
 }
 
 const createAndConnectToRucher = async (activite: Activite) => {
-    return await prisma.t_activite.create({
-        data: {
-            actDescription: activite.description,
-            actDate: activite.dateTime,
-            actDuree: activite.dateTime,
-            fkCategorie: activite.fkCategorie,
-        }
+    return await prisma.$transaction(async (tx) => {
+        const ids = await tx.t_ruche.findMany({
+            select: {
+                idRuche: true
+            },
+            where: {
+                fkRucher: activite.fkRucheOrRucher
+            }
+        })
+        return await tx.t_activite.create({
+            data: {
+                actDescription: activite.description,
+                actDate: activite.dateTime,
+                actDuree: activite.dateTime,
+                fkCategorie: activite.fkCategorie,
+                ruches: {
+                    connect: ids
+                }
+            }
+        })
     })
 }
 

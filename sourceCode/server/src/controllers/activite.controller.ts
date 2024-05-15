@@ -2,9 +2,15 @@ import { asyncHandler, status, config, type ErrorStatus } from '../utils'
 import { activiteDB } from '../database'
 import { activiteParser, activitePartialParser, idParser } from '../validation'
 
-const create = asyncHandler(async (req, res) => {
+const createOnRuche = asyncHandler(async (req, res) => {
     const activite = activiteParser.parse(req.body)
     const activiteRecord = await activiteDB.createAndConnectToRuche(activite)
+    res.status(status.OK_CREATED).json(activiteRecord)
+})
+
+const createOnRucher = asyncHandler(async (req, res) => {
+    const activite = activiteParser.parse(req.body)
+    const activiteRecord = await activiteDB.createAndConnectToRucher(activite)
     res.status(status.OK_CREATED).json(activiteRecord)
 })
 
@@ -48,7 +54,8 @@ const deleteById = asyncHandler(async (req, res) => {
 })
 
 export const activiteController = {
-    create,
+    createOnRuche,
+    createOnRucher,
     getAll,
     getById,
     getByYear,
