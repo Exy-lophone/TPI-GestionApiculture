@@ -1,6 +1,5 @@
 import express from "express"
 import { activiteController } from "../controllers"
-
 export const activiteRouter = express.Router()
 
 activiteRouter.route('/year/:year')
