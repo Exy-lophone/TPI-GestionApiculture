@@ -18,6 +18,7 @@ const register = asyncHandler(async (req, res) => {
 })
 
 const login = asyncHandler(async (req, res) => {
+    console.log(req.body)
     const { username, password } = loginParser.parse(req.body)
     const user = await apiculteur.getByUsername(username)
     if(!user) throw wrongCredErr
