@@ -81,6 +81,9 @@
   align-items: center;
 }
 
+.main-content {
+  margin: 0 10.625rem;
+}
 .outline-shadow {
   box-shadow: 0 0 0.625rem 0.3125rem rgba(0,0,0,0.5);
 }
@@ -103,6 +106,10 @@ button {
 .btn-green {
   background-color: var(--success-400);
   color: var(--neutral-0);
+}
+
+.btn-yellow {
+  background-color: var(--primary-300);
 }
 
 input {

@@ -1,5 +1,12 @@
 <script lang="ts" setup>
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
+
+const router = useRouter()
+
+function logout () {
+    window.localStorage.removeItem('token')
+    router.push('/login')
+}
 </script>
 
 <template>
@@ -9,7 +16,7 @@ import { RouterLink } from 'vue-router';
             <div class="nav-links d-flex">
                 <router-link to="/" class="font-bold">Rucher</router-link>
                 <router-link to="/activity" class="font-bold">Activités</router-link>
-                <button class="btn-black">Logout</button>
+                <button class="btn-black" @click="logout()">Logout</button>
             </div>
         </div>
     </nav>

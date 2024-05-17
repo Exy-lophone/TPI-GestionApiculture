@@ -1,13 +1,16 @@
 <script lang="ts" setup>
-import { ref, watch, type Ref } from 'vue';
-import { createFetchObj, type FetchResult} from '../composables/useFetch'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { createFetchResult } from '../composables/useFetch'
 import { z } from 'zod'
+
+const router = useRouter()
 
 const parser = z.object({
     token: z.string()
 })
 
-const auth = createFetchObj<z.infer<typeof parser>>()
+const auth = createFetchResult<z.infer<typeof parser>>()
 const username = ref('')
 const password = ref('')
 
@@ -16,9 +19,16 @@ const authentify = () => {
         url: 'http://localhost:3000/auth/login',
         req: {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({username: username.value, password: password.value})
         },
         parser
+    }, 
+    (x) => { 
+        window.localStorage.setItem('token',x.token)
+        router.push('/')
     });
 }
 
@@ -27,11 +37,11 @@ const authentify = () => {
 <template>
     <main class="d-flex">
         <div class="login-leftside">
-            <p>{{ auth }}</p>
         </div>
         <div class="login-rightside d-flex">
             <h1 class="font-size-h1 font-bold font-italic">API-Culture</h1>
             <form @submit.prevent class="login-form d-flex">
+                <p v-if="auth.error.value" style="color: var(--error-300);">Mauvais nom d'utilisateur ou mot de passe !</p>
                 <div class="label-input d-flex">
                     <label class="font-size-h6 font-bold">Nom d'utilisateur</label>
                     <input v-model="username" type="text" placeholder="Nom d'utilisateur..." >
