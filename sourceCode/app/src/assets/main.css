@@ -108,6 +108,10 @@ button {
   color: var(--neutral-0);
 }
 
+.btn-white {
+  background-color: var(--neutral-0);
+}
+
 .btn-green {
   background-color: var(--success-400);
   color: var(--neutral-0);

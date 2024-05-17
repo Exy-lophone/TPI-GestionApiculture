@@ -8,6 +8,7 @@ type RucheItemProps = {
     nbr: number
     color: string
 }
+
 const props = defineProps<RucheItemProps>()
 </script>
 

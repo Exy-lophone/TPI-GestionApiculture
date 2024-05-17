@@ -2,26 +2,19 @@
 import { createFetchResult } from '@/composables/useFetch'
 import { z } from 'zod';
 import RucherItem from '@/components/RucherItem.vue'
+import { BASE_URL, rucherParser, getToken } from '@/utils';
 
-const parser = z.array(z.object({
-  idRucher: z.number(),
-  rucNumero: z.number(),
-  rucNom: z.string(),
-  rucLocalisation: z.string(),
-  fkApiculteur: z.number()
-}))
+const parser = z.array(rucherParser)
 const ruchers = createFetchResult<z.infer<typeof parser>>()
-const token = window.localStorage.getItem('token')
 ruchers.load({
-  url: 'http://localhost:3000/rucher',
+  url: BASE_URL+'/rucher',
   req: {
     headers: {
-      'Authorization': `bearer ${token}`
+      'Authorization': `bearer ${getToken()}`
     }
   },
   parser
 })
-
 </script>
 
 <template>

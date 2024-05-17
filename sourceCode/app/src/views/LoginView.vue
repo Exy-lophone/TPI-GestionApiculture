@@ -3,20 +3,16 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { createFetchResult } from '../composables/useFetch'
 import { z } from 'zod'
+import { loginParser } from '@/utils';
+import { BASE_URL } from '@/utils';
 
 const router = useRouter()
-
-const parser = z.object({
-    token: z.string()
-})
-
-const auth = createFetchResult<z.infer<typeof parser>>()
+const auth = createFetchResult<z.infer<typeof loginParser>>()
 const username = ref('')
 const password = ref('')
-
 const authentify = () => {
     auth.load({
-        url: 'http://localhost:3000/auth/login',
+        url: BASE_URL+'/auth/login',
         req: {
             method: 'POST',
             headers: {
@@ -24,7 +20,7 @@ const authentify = () => {
             },
             body: JSON.stringify({username: username.value, password: password.value})
         },
-        parser
+        parser: loginParser
     }, 
     (x) => { 
         window.localStorage.setItem('token',x.token)
