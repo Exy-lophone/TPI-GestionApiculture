@@ -28,6 +28,7 @@ nav {
 }
 .nav-content {
     max-width: 120rem;
+    margin: auto;
     justify-content: space-between;
     padding: 2rem 4rem;
 }

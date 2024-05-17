@@ -1,8 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { createFetchResult } from '@/composables/useFetch'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
-import { z } from 'zod'
+import RucheView from '@/views/RucheView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +15,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView
+    },
+    {
+      path: '/ruche/:id',
+      name: 'ruche',
+      component: RucheView
     }
   ]
 })

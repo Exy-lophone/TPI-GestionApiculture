@@ -25,7 +25,7 @@ const getById = asyncHandler(async (req, res) => {
     if(!ruche) {
         const err: ErrorStatus = {
             status: status.BAD_REQUEST,
-            message: `Rucher with id: ${id} do not exist`
+            message: `Ruche with id: ${id} do not exist`
         }
         throw err
     }

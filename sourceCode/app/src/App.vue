@@ -7,9 +7,14 @@ const router = useRouter();
 
 <template>
   <navbar v-if="router.currentRoute.value.name !== 'login'"></navbar>
-  <RouterView />
+  <div class="application-content">
+    <RouterView />
+  </div>
 </template>
 
 <style scoped>
-
+.application-content {
+  max-width: 120rem;
+  margin: auto;
+}
 </style>

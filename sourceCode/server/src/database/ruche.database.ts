@@ -43,6 +43,7 @@ const getById = async (id: number) => {
 
 const getByRucherId = async (id: number) => {
     return await prisma.t_ruche.findMany({
+        select,
         where: {
             fkRucher: id
         }

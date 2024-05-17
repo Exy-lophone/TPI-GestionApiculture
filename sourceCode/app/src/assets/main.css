@@ -85,7 +85,7 @@
   margin: 0 10.625rem;
 }
 .outline-shadow {
-  box-shadow: 0 0 0.625rem 0.3125rem rgba(0,0,0,0.5);
+  box-shadow: 0 0 1.5625rem rgba(0,0,0,0.35);
 }
 
 .inner-shadow {
@@ -96,6 +96,11 @@ button {
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   font-weight: 700;
+}
+
+.btn-red {
+  background-color: var(--error-300);
+  color: var(--neutral-0);
 }
 
 .btn-black {
