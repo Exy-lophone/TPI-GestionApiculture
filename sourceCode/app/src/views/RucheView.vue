@@ -101,5 +101,7 @@ const getTimeFromIsoDate = (isoDate: string) => {
     gap: 1rem;
     margin: 2rem 0;
     align-items: stretch;
+    max-width: 70rem;
+    margin: auto;
 }
 </style>
