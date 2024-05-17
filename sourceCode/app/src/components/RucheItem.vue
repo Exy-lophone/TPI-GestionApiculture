@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
 
 type RucheItemProps = {
+    id: number
     nbr: number
     color: string
 }
@@ -12,7 +16,7 @@ const props = defineProps<RucheItemProps>()
         <div class="ruche-item-color" :style="{'background-color': `#${props.color}`}">&nbsp;</div>
         <div class="ruche-item-content d-flex">
             <p class="font-bold">#{{ props.nbr }}</p>
-            <button class="btn-black">Détails</button>
+            <button class="btn-black" @click="router.push(`/ruche/${props.id}`)">Détails</button>
         </div>
     </div>
 </template>

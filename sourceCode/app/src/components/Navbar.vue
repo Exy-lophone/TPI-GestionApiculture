@@ -12,7 +12,7 @@ function logout () {
 <template>
     <nav class="outline-shadow">
         <div class="nav-content d-flex">
-            <h1 class="font-size-h1 font-bold font-italic" style="color: var(--primary-300)">API-Culture</h1>
+            <h1 class="font-size-h1 font-bold font-italic" style="color: var(--primary-300)" @click="router.push('/')">API-Culture</h1>
             <div class="nav-links d-flex">
                 <router-link to="/" class="font-bold">Rucher</router-link>
                 <router-link to="/activity" class="font-bold">Activités</router-link>

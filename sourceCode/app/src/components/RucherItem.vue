@@ -67,7 +67,14 @@ ruches.load({
             </div>
         </div>
         <div class="ruche-item-container d-flex inner-shadow">
-            <ruche-item v-for="ruche in ruches.data.value" :nbr="ruche.rucNumero" :color="ruche.couleur.couCodeHex"></ruche-item>
+            <ruche-item 
+                v-for="ruche in ruches.data.value"
+                v-bind="{
+                    nbr: ruche.rucNumero,
+                    color: ruche.couleur.couCodeHex,
+                    id: ruche.idRuche
+                }"
+            ></ruche-item>
         </div>
     </div>
 </template>
