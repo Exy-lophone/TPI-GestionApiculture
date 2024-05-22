@@ -24,7 +24,7 @@ const toggleShowDescription = () => showDescription.value = !showDescription.val
             <p class="font-bold">{{ props.category }}</p>
             <p class="font-bold">{{ props.date }}</p>
             <p class="font-bold">{{ props.time }}</p>
-            <router-link :to="{path: `/ruche/${props.nbRuche}`}" class="activity-link font-bold">Ruche numéro: {{ props.nbRuche }}°</router-link>
+            <router-link :to="{path: `/ruche/${props.id}`}" class="activity-link font-bold">Ruche numéro: {{ props.nbRuche }}°</router-link>
             <div class="activity-item-btns d-flex">
                 <button class="btn-black">Modifier</button>
                 <button class="btn-red"><trash-icon></trash-icon></button>

@@ -5,6 +5,6 @@ import { status } from "../utils"
 export const authRouter = express.Router()
 
 authRouter
-    .get('/verify',verifyToken,(req,res,next) => res.status(status.OK_NOCONTENT))
+    .get('/verify',verifyToken,(req,res) => res.status(status.OK).json(req.body))
     .post('/register', authController.register)
     .post('/login', authController.login)

@@ -3,6 +3,7 @@ import { createFetchResult } from '@/composables/useFetch'
 import { z } from 'zod';
 import RucherItem from '@/components/RucherItem.vue'
 import { BASE_URL, rucherParser, getToken } from '@/utils';
+import { showModal } from '@/composables/useModal';
 
 const parser = z.array(rucherParser)
 const ruchers = createFetchResult<z.infer<typeof parser>>()
@@ -21,7 +22,7 @@ ruchers.load({
   <div class="main-content d-flex home-main-content">
     <div class="home-sub-title d-flex">
       <h1 class="font-bold font-size-h2">Rucher(s):</h1>
-      <button class="btn-yellow outline-shadow">Ajouter +</button>
+      <button class="btn-yellow outline-shadow" @click="showModal('rucher', 'add')">Ajouter +</button>
     </div>
     <div class="d-flex rucher-item-container">
       <rucher-item 

@@ -10,6 +10,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
     const token = bearer[1];
     try { 
         const decoded = jwt.verify(token, config.SECRET_KEY);
+        req.body = decoded
         next();
     } catch (err) {
         res.status(status.UNAUTHORIZED).json({error: "Access denied"});

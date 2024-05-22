@@ -74,7 +74,7 @@ activities.load({
                 v-if="filterRuche(activity.ruche.idRuche)"
                 :key="activity.idActivite"
                 v-bind="{
-                    id: activity.idActivite,
+                    id: activity.ruche.idRuche,
                     category: activity.categorie.catNom,
                     date: getDateFromIsoDate(activity.actDate),
                     time: getTimeFromIsoDate(activity.actDuree),
@@ -94,7 +94,7 @@ activities.load({
 }
 .activity-list {
     flex-direction: column;
-    gap: 1rem;
+    gap: 2rem;
     margin: 2rem 0;
     align-items: stretch;
     max-width: 70rem;

@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { RouterView, useRouter } from 'vue-router'
+import ModalRucher from './components/ModalRucher.vue';
 import navbar from '@/components/Navbar.vue'
 
 const router = useRouter();
 </script>
 
 <template>
+  <modal-rucher></modal-rucher>
   <navbar v-if="router.currentRoute.value.name !== 'login'"></navbar>
   <div class="application-content">
     <RouterView />
@@ -30,7 +32,7 @@ const router = useRouter();
       </section>
       <section class="footer-section d-flex">
         <h6 class="font-size-h6 font-bold footer-section-title">Lieu</h6>
-        <p class="footer-section-content"><a class="font-bold" href="">ETML</a> Vennes</p>
+        <p class="footer-section-content"><a class="font-bold" href="https://www.etml.ch/">ETML</a> Vennes</p>
       </section>
     </div>
   </footer>

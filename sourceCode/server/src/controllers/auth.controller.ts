@@ -13,7 +13,7 @@ const register = asyncHandler(async (req, res) => {
     const { username, password } = loginParser.parse(req.body)
     const hashedPswd = await bcrypt.hash(password,10)
     const user = await apiculteur.create(username, hashedPswd)
-    const token = jwt.sign({userId: user.idApiculteur }, config.SECRET_KEY, {expiresIn: '1h'})
+    const token = jwt.sign({userId: user.idApiculteur }, config.SECRET_KEY, {expiresIn: '24h'})
     res.status(status.OK_CREATED).json({token})
 })
 
@@ -23,7 +23,7 @@ const login = asyncHandler(async (req, res) => {
     if(!user) throw wrongCredErr
     const match = await bcrypt.compare(password,user.apiMotDePasse);
     if(!match) throw wrongCredErr
-    const token = jwt.sign({userId: user.idApiculteur},config.SECRET_KEY,{expiresIn: '1h'})
+    const token = jwt.sign({userId: user.idApiculteur},config.SECRET_KEY,{expiresIn: '24h'})
     res.status(status.OK).json({token})
 })
 
