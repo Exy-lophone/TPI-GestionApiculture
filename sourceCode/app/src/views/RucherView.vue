@@ -3,6 +3,7 @@ import { useRoute } from 'vue-router';
 import { createFetchResult } from '@/composables/useFetch';
 import { BASE_URL, rucherParser, getToken } from '@/utils';
 import { z } from 'zod';
+import ActivityList from '@/components/ActivityList.vue';
 
 const route = useRoute()
 const rucher = createFetchResult<z.infer<typeof rucherParser>>()
@@ -25,6 +26,7 @@ rucher.load({
             <h4 class="font-size-h4 font-bold">Localisation: {{ rucher.data.value?.rucLocalisation }}</h4>
             <button class="btn-yellow outline-shadow">Modifier</button>
         </div>
+        <activity-list from="rucher"></activity-list>
     </div>
 </template>
 

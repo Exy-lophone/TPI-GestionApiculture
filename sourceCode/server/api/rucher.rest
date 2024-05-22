@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3000/rucher
 
-@authToken = empty
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjM1OTQ5MywiZXhwIjoxNzE2MzYzMDkzfQ.OqNnfbdKK6VLK4t_bEd-1UiT9Fk6U-t2eyS1wy6Fkxc
 
 ###
 POST {{baseUrl}}
@@ -24,6 +24,7 @@ GET {{baseUrl}}/1/ruches
 
 ###
 GET {{baseUrl}}/1/activites
+Authorization: bearer {{authToken}}
 
 ###
 PATCH {{baseUrl}}/2

@@ -3,7 +3,7 @@ import { useRoute } from 'vue-router';
 import { createFetchResult } from '@/composables/useFetch';
 import { z } from 'zod';
 import { BASE_URL, rucheParser, activityParser, getToken } from '@/utils';
-import ActivityItem from '@/components/ActivityItem.vue';
+import ActivityList from '@/components/ActivityList.vue';
 
 const route = useRoute()
 const parser = z.array(activityParser)
@@ -27,13 +27,6 @@ activities.load({
     },
     parser
 })
-const getDateFromIsoDate = (isoDate: string) => {
-    return isoDate.split('T')[0]
-}
-const getTimeFromIsoDate = (isoDate: string) => {
-    const time = isoDate.split('T')[1].split(':')
-    return time[0] + ':' + time[1]
-}
 </script>
 
 <template>
@@ -55,24 +48,7 @@ const getTimeFromIsoDate = (isoDate: string) => {
             </div>
             <button class="btn-yellow outline-shadow">Modifier</button>
         </div>
-        <div class="activity-list-title d-flex">
-            <h3 class="font-size-h3 font-bold">Activité(s)</h3>
-            <button class="btn-white outline-shadow">Ajouter +</button>
-        </div>
-        <div class="activity-list d-flex" v-if="ruche.data.value">
-            <activity-item
-                v-for="activity in activities.data.value"
-                :key="activity.idActivite"
-                v-bind="{
-                    id: activity.idActivite,
-                    category: activity.categorie.catNom,
-                    date: getDateFromIsoDate(activity.actDate),
-                    time: getTimeFromIsoDate(activity.actDuree),
-                    nbRuche: ruche.data.value.rucNumero,
-                    description: activity.actDescription
-                }"
-            ></activity-item>
-        </div>
+        <activity-list from="ruche"></activity-list>
     </div>
 </template>
 
@@ -90,18 +66,5 @@ const getTimeFromIsoDate = (isoDate: string) => {
     align-items: start;
     flex-direction: column;
     gap: 0.5rem;
-}
-.activity-list-title {
-    flex-direction: column;
-    gap: 1rem;
-    margin: 2rem 0;
-}
-.activity-list {
-    flex-direction: column;
-    gap: 1rem;
-    margin: 2rem 0;
-    align-items: stretch;
-    max-width: 70rem;
-    margin: auto;
 }
 </style>

@@ -47,5 +47,6 @@ export const activityParser = z.object({
     categorie: z.object({
         idCategorie: z.number(),
         catNom: z.string()
-    })
+    }),
+    ruches: z.array(rucheParser)
 })

@@ -6,7 +6,23 @@ const select = {
     actDescription: true,
     actDate: true,
     actDuree: true,
-    categorie: true
+    categorie: true,
+    ruches: {
+        select: {
+            idRuche: true,
+            rucNumero: true,
+            rucDescription: true,
+            reine: {
+                select: {
+                    idReine: true,
+                    reiAnneNaissance: true,
+                    couleur: true
+                }
+            },
+            rucher: true,
+            couleur: true,
+        }
+    }
 }
 
 const createAndConnectToRuche = async (activite: Activite) => {
