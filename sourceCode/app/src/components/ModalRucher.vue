@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import Modal from '@/components/Modal.vue'
 import { modals, closeModal } from '@/composables/useModal'
+import { createFetchResult } from '@/composables/useFetch';
+import { BASE_URL, getToken, getUserId, rucherParser } from '@/utils';
 import { ref } from 'vue';
+import { z } from 'zod';
+
 const getTitle = () => {
     switch (modals.rucher.mode) {
         case 'add': return 'Ajouter'
@@ -12,12 +16,37 @@ const getTitle = () => {
 const nbr = ref('')
 const name = ref('')
 const localisation = ref('')
+const rucherFetch = createFetchResult<z.infer<typeof rucherParser>>()
 
+const post = () => {
+    const userId = z.coerce.number().parse(getUserId())
+    rucherFetch.load({
+        url: BASE_URL+'/rucher',
+        req: {
+            method: 'POST',
+            headers: {
+                'Authorization': `bearer ${getToken()}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nbr: z.coerce.number().parse(nbr.value), 
+                name: name.value,
+                localisation: localisation.value, 
+                fkApiculteur: userId
+            })
+        },
+        parser: rucherParser
+    })
+    closeModal('rucher')
+}
+
+const deleteRucher = () => {
+}
 
 </script>
 
 <template>
-    <modal :title="getTitle()" v-if="modals.rucher.show" @canceled="closeModal('rucher')" @background-clicked="closeModal('rucher')">
+    <modal :title="getTitle()" v-if="modals.rucher.show" @validated="post()" @canceled="closeModal('rucher')" @background-clicked="closeModal('rucher')">
         <div class="modal-body-row d-flex">
             <div class="modal-label-input d-flex">
                 <label class="font-bold">Numéro:</label>

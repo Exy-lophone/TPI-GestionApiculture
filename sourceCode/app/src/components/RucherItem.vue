@@ -32,6 +32,7 @@ ruches.load({
 const toggleShowRuche = () => {
     showRuche.value = !showRuche.value
 }
+
 </script>
 
 <template>

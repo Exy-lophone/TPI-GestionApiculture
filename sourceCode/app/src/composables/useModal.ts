@@ -1,3 +1,4 @@
+import type { Activity, Ruche, Rucher } from "@/utils";
 import { reactive } from "vue";
 
 export type ModalMode = {
@@ -27,12 +28,16 @@ export const modals = reactive<Modal>({
     }
 })
 
+export let currentRucher: Rucher
+export let currentRuche: Ruche
+export let currentActivity: Activity
+
+
 export const showModal = (name: keyof Modal, mode: ModalMode['mode']) => {
     modals[name].mode = mode
     modals[name].show = true
 }
 
 export const closeModal = (name: keyof Modal) => {
-    console.log('hello')
     modals[name].show = false
 }

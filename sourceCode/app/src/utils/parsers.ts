@@ -1,7 +1,8 @@
 import { z } from 'zod'
 
 export const loginParser = z.object({
-    token: z.string()
+    token: z.string(),
+    userId: z.number()
 })
 
 export const rucherParser = z.object({
@@ -11,6 +12,8 @@ export const rucherParser = z.object({
     rucLocalisation: z.string(),
     fkApiculteur: z.number()
 })
+
+export type Rucher = z.infer<typeof rucherParser>
 
 export const rucheParser = z.object({
     idRuche: z.number(),
@@ -39,6 +42,8 @@ export const rucheParser = z.object({
     })
 })
 
+export type Ruche = z.infer<typeof rucheParser>
+
 export const activityParser = z.object({
     idActivite: z.number(),
     actDescription: z.string(),
@@ -50,3 +55,5 @@ export const activityParser = z.object({
     }),
     ruches: z.array(rucheParser)
 })
+
+export type Activity = z.infer<typeof activityParser>

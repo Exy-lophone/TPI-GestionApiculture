@@ -24,10 +24,10 @@ const authentify = () => {
     }, 
     (x) => { 
         window.localStorage.setItem('token',x.token)
+        window.localStorage.setItem('user_id',`${x.userId}`)
         router.push('/')
     });
 }
-
 </script>
 
 <template>

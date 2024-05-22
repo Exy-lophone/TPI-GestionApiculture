@@ -6,3 +6,10 @@ export const getToken = () => {
     }
     return token
 }
+export const getUserId = () => {
+    const userId = window.localStorage.getItem('user_id')
+    if(!userId) {
+        throw new Error('[config] user_id is missing !')
+    }
+    return userId
+}

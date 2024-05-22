@@ -24,7 +24,7 @@ const login = asyncHandler(async (req, res) => {
     const match = await bcrypt.compare(password,user.apiMotDePasse);
     if(!match) throw wrongCredErr
     const token = jwt.sign({userId: user.idApiculteur},config.SECRET_KEY,{expiresIn: '24h'})
-    res.status(status.OK).json({token})
+    res.status(status.OK).json({token, userId: user.idApiculteur})
 })
 
 export const authController = {

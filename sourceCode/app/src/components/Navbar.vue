@@ -5,6 +5,7 @@ const router = useRouter()
 
 function logout () {
     window.localStorage.removeItem('token')
+    window.localStorage.removeItem('user_id')
     router.push('/login')
 }
 </script>
