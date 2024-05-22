@@ -7,7 +7,12 @@ import ActivityItem from '@/components/ActivityItem.vue';
 
 export type ActivityListProps = {
     from: 'rucher' | 'ruche' | 'all'
+    year?: number
 }
+
+const props = withDefaults(defineProps<ActivityListProps>(), {
+    year: 2024
+})
 
 const getDateFromIsoDate = (isoDate: string) => {
     return isoDate.split('T')[0]
@@ -18,7 +23,7 @@ const getTimeFromIsoDate = (isoDate: string) => {
 }
 const getURL = () => {
     switch (props.from) {
-        case 'all': return BASE_URL+`/activite`;
+        case 'all': return BASE_URL+`/activite/year/${props.year}`;
         case 'ruche': return BASE_URL+`/ruche/${route.params.id}/activites`;
         case 'rucher': return BASE_URL+`/rucher/${route.params.id}/activites`;
     }
@@ -28,10 +33,25 @@ const filterRuche = (id: number) => {
     return id === z.coerce.number().parse(route.params.id)
 }
 
-const props = defineProps<ActivityListProps>()
-const route = useRoute()
 const parser = z.array(activityParser)
-const activities = createFetchResult<z.infer<typeof parser>>()
+type Activities = z.infer<typeof parser>
+
+const unwrapActivities = (activities: Activities | null) => {
+    if(!activities) return []
+    return activities.flatMap(x => {
+        return x.ruches.map(y => ({
+            idActivite: x.idActivite,
+            actDate: x.actDate,
+            actDuree: x.actDuree,
+            actDescription: x.actDescription,
+            categorie: x.categorie,
+            ruche: y
+        }))
+    })
+}
+
+const route = useRoute()
+const activities = createFetchResult<Activities>()
 activities.load({
     url: getURL(),
     req: {
@@ -44,27 +64,25 @@ activities.load({
 </script>
 
 <template>
-    <div class="activity-list-title d-flex">
+    <div v-if="props.from !== 'all'" class="activity-list-title d-flex">
         <h3 class="font-size-h3 font-bold">Activité(s)</h3>
         <button class="btn-white outline-shadow">Ajouter +</button>
     </div>
     <div class="activity-list d-flex">
-        <div v-for="activity in activities.data.value">
-            <div v-for="ruche in activity.ruches">            
-                <activity-item
-                    v-if="filterRuche(ruche.idRuche)"
-                    :key="activity.idActivite"
-                    v-bind="{
-                        id: activity.idActivite,
-                        category: activity.categorie.catNom,
-                        date: getDateFromIsoDate(activity.actDate),
-                        time: getTimeFromIsoDate(activity.actDuree),
-                        nbRuche: ruche.idRuche,
-                        description: activity.actDescription
-                    }"
-                ></activity-item>
-            </div>
-        </div>
+        <template v-for="activity in unwrapActivities(activities.data.value)" :key="activity.idActivite">          
+            <activity-item
+                v-if="filterRuche(activity.ruche.idRuche)"
+                :key="activity.idActivite"
+                v-bind="{
+                    id: activity.idActivite,
+                    category: activity.categorie.catNom,
+                    date: getDateFromIsoDate(activity.actDate),
+                    time: getTimeFromIsoDate(activity.actDuree),
+                    nbRuche: activity.ruche.rucNumero,
+                    description: activity.actDescription
+                }"
+            ></activity-item>
+        </template>
     </div>
 </template>
 
