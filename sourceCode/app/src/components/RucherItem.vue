@@ -7,6 +7,7 @@ import { createFetchResult } from '@/composables/useFetch';
 import { BASE_URL, rucheParser, getToken } from '@/utils';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { deleteRucherById } from '@/composables/useRucher';
 
 export type RucherItemProps = {
     id: number,
@@ -43,7 +44,7 @@ const toggleShowRuche = () => {
             <p class="font-bold">Localisation: {{ props.localisation }}</p>
             <div class="rucher-item-btns d-flex">
                 <button class="btn-black" @click="router.push(`/rucher/${props.id}`)">Détails</button>
-                <button class="btn-red"><trash-icon></trash-icon></button>
+                <button class="btn-red" @click="deleteRucherById(props.id)"><trash-icon></trash-icon></button>
                 <arrow-icon direction="down" @click="toggleShowRuche()"></arrow-icon>
             </div>
         </div>

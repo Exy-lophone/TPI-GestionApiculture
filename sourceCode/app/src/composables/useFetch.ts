@@ -42,3 +42,16 @@ export const createFetchResult = <T>(): FetchResult<T> => {
         }
     }
 }
+
+export const useFetch = async (url: string, req: RequestInit) => {
+    try {
+        const response = await fetch(url,req)
+        const json = await response.json()
+        if(!(response.status >= 200 && response.status < 300)) {
+            throw Error (json.error)
+        }
+    } catch (err) {
+        console.log(err)
+    }
+} 
+

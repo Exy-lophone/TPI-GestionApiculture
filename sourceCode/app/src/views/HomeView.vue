@@ -1,21 +1,9 @@
 <script setup lang="ts">
-import { createFetchResult } from '@/composables/useFetch'
-import { z } from 'zod';
 import RucherItem from '@/components/RucherItem.vue'
-import { BASE_URL, rucherParser, getToken } from '@/utils';
 import { showModal } from '@/composables/useModal';
+import { ruchersFetch, loadAllRucher } from '@/composables/useRucher';
 
-const parser = z.array(rucherParser)
-const ruchers = createFetchResult<z.infer<typeof parser>>()
-ruchers.load({
-  url: BASE_URL+'/rucher',
-  req: {
-    headers: {
-      'Authorization': `bearer ${getToken()}`
-    }
-  },
-  parser
-})
+loadAllRucher()
 </script>
 
 <template>
@@ -26,7 +14,7 @@ ruchers.load({
     </div>
     <div class="d-flex rucher-item-container">
       <rucher-item 
-        v-for="rucher in ruchers.data.value"
+        v-for="rucher in ruchersFetch.data.value"
         v-bind="{
           id: rucher.idRucher,
           nbr: rucher.rucNumero,

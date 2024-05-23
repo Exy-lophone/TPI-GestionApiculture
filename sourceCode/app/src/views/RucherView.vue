@@ -1,31 +1,26 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import { createFetchResult } from '@/composables/useFetch';
-import { BASE_URL, rucherParser, getToken } from '@/utils';
-import { z } from 'zod';
+import { loadRucherById } from '@/composables/useRucher';
 import ActivityList from '@/components/ActivityList.vue';
-import { showModal } from '@/composables/useModal';
+import { currentRucher, showModal } from '@/composables/useModal';
+import { z } from 'zod';
 
 const route = useRoute()
-const rucher = createFetchResult<z.infer<typeof rucherParser>>()
-rucher.load({
-    url: BASE_URL+`/rucher/${route.params.id}`,
-    req: {
-        headers: {
-            'Authorization': `bearer ${getToken()}`
-        }
-    },
-    parser: rucherParser
-})
+const rucher = loadRucherById(z.coerce.number().parse(route.params.id))
+
+const modify = () => {
+    currentRucher.value = rucher.data.value
+    showModal('rucher', 'modify')
+}
 </script>
 
 <template>
     <div class="main-content">
-        <div class="ruche-info d-flex" v-if="!rucher.loading.value">
-            <h4 class="font-size-h4 font-bold">Nom: {{ rucher.data.value?.rucNom }}</h4>
-            <h4 class="font-size-h4 font-bold">Numéro: {{ rucher.data.value?.rucNumero }}</h4>
-            <h4 class="font-size-h4 font-bold">Localisation: {{ rucher.data.value?.rucLocalisation }}</h4>
-            <button class="btn-yellow outline-shadow" @click="showModal('rucher', 'modify')">Modifier</button>
+        <div class="ruche-info d-flex" v-if="rucher.data.value">
+            <h4 class="font-size-h4 font-bold">Nom: {{ rucher.data.value.rucNom }}</h4>
+            <h4 class="font-size-h4 font-bold">Numéro: {{ rucher.data.value.rucNumero }}</h4>
+            <h4 class="font-size-h4 font-bold">Localisation: {{ rucher.data.value.rucLocalisation }}</h4>
+            <button class="btn-yellow outline-shadow" @click="modify()">Modifier</button>
         </div>
         <activity-list from="rucher"></activity-list>
     </div>

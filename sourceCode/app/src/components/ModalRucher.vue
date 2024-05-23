@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import Modal from '@/components/Modal.vue'
-import { modals, closeModal } from '@/composables/useModal'
-import { createFetchResult } from '@/composables/useFetch';
-import { BASE_URL, getToken, getUserId, rucherParser } from '@/utils';
+import { modals, closeModal } from '@/composables/useModal';
+import { updateRucher, createRucher } from '@/composables/useRucher';
+import { currentRucher } from '@/composables/useModal';
+import { getUserId } from '@/utils';
 import { ref } from 'vue';
 import { z } from 'zod';
 
@@ -13,40 +14,52 @@ const getTitle = () => {
     }
 }
 
-const nbr = ref('')
-const name = ref('')
-const localisation = ref('')
-const rucherFetch = createFetchResult<z.infer<typeof rucherParser>>()
+const nbr = ref(modals.rucher.mode === 'modify' ? currentRucher.value?.rucNumero ? currentRucher.value.rucNumero : '' : '')
+const name = ref(modals.rucher.mode === 'modify' ? currentRucher.value?.rucNom ? currentRucher.value.rucNom : '' : '')
+const localisation = ref(modals.rucher.mode === 'modify' ? currentRucher.value?.rucLocalisation ? currentRucher.value.rucLocalisation : '' : '')
 
-const post = () => {
-    const userId = z.coerce.number().parse(getUserId())
-    rucherFetch.load({
-        url: BASE_URL+'/rucher',
-        req: {
-            method: 'POST',
-            headers: {
-                'Authorization': `bearer ${getToken()}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                nbr: z.coerce.number().parse(nbr.value), 
-                name: name.value,
-                localisation: localisation.value, 
-                fkApiculteur: userId
-            })
-        },
-        parser: rucherParser
+const create = () => {
+    createRucher({
+        idRucher: 1,
+        rucNumero: z.coerce.number().parse(nbr.value),
+        rucNom: name.value,
+        rucLocalisation: localisation.value,
+        fkApiculteur: z.coerce.number().parse(getUserId()),
     })
     closeModal('rucher')
 }
 
-const deleteRucher = () => {
+const update = () => {
+    if(!currentRucher.value) {
+        console.error('[ModalRucher] currentRucher is null')
+        return
+    }
+    updateRucher({
+        idRucher: currentRucher.value.idRucher,
+        rucNumero: z.coerce.number().parse(nbr.value),
+        rucNom: name.value,
+        rucLocalisation: localisation.value,
+        fkApiculteur: z.coerce.number().parse(getUserId()),
+    })
+    closeModal('rucher')
 }
 
+const validate = () => {
+    switch (modals.rucher.mode) {
+        case 'add': create(); break
+        case 'modify': update(); break
+    }
+}
 </script>
 
 <template>
-    <modal :title="getTitle()" v-if="modals.rucher.show" @validated="post()" @canceled="closeModal('rucher')" @background-clicked="closeModal('rucher')">
+    <modal 
+        :title="getTitle()" 
+        v-if="modals.rucher.show" 
+        @validated="validate()" 
+        @canceled="closeModal('rucher')" 
+        @background-clicked="closeModal('rucher')"
+    >
         <div class="modal-body-row d-flex">
             <div class="modal-label-input d-flex">
                 <label class="font-bold">Numéro:</label>
@@ -54,7 +67,7 @@ const deleteRucher = () => {
             </div>
             <div class="modal-label-input d-flex">
                 <label class="font-bold">Nom:</label>
-                <input id="modal-rucher-input-name" v-model="name" type="text" placeholder="Nom"></input>
+                <input id="modal-rucher-input-name" v-model="name" type="text" placeholder="Nom" ></input>
             </div>
             <div class="modal-label-input d-flex">
                 <label class="font-bold">Localisation:</label>
