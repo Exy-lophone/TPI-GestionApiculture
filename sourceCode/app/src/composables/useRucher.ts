@@ -5,6 +5,8 @@ import { z } from 'zod'
 
 export const ruchersFetch = createFetchResult<Rucher[]>()
 
+export const rucherDetailFetch = createFetchResult<Rucher>()
+
 export const loadAllRucher = () => {
     ruchersFetch.load({
         url: BASE_URL+'/rucher',
@@ -17,9 +19,8 @@ export const loadAllRucher = () => {
     })
 }
 
-export const loadRucherById = (id: number) => {
-    const rucherFetch = createFetchResult<Rucher>()
-    rucherFetch.load({
+export const loadRucherDetailById = (id: number) => {
+    rucherDetailFetch.load({
         url: BASE_URL+`/rucher/${id}`,
         req: {
             headers: {
@@ -28,7 +29,6 @@ export const loadRucherById = (id: number) => {
         },
         parser: rucherParser
     })
-    return rucherFetch
 }
 
 export const deleteRucherById = async (id: number) => {
@@ -61,10 +61,16 @@ export const createRucher = async (rucher: Rucher) => {
 }
 
 export const updateRucher = async (rucher: Partial<Rucher>) => {
-    await useFetch(BASE_URL+`/rucher`, {
+    if(!rucher.idRucher) {
+        console.error('[useRucher] idRucher is undefined !')
+        return
+    }
+    
+    await useFetch(BASE_URL+`/rucher/${rucher.idRucher}`, {
         method: 'PATCH',
         headers: {
-            'Authorization': `bearer ${getToken()}`
+            'Authorization': `bearer ${getToken()}`,
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             nbr: rucher.rucNumero, 
@@ -75,4 +81,5 @@ export const updateRucher = async (rucher: Partial<Rucher>) => {
     })
 
     loadAllRucher()
+    loadRucherDetailById(rucher.idRucher)
 }

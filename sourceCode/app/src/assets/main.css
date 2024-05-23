@@ -134,3 +134,13 @@ input:focus {
 ::placeholder {
   color: var(--neutral-80);
 }
+
+textarea {
+  background-color: var(--neutral-900);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  color: var(--neutral-0);
+}
+textarea:focus {
+  outline: none;
+}

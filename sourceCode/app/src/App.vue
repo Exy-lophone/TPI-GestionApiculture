@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { RouterView, useRouter } from 'vue-router'
 import ModalRucher from './components/ModalRucher.vue';
+import ModalActivity from './components/ModalActivity.vue';
+import { modals } from './composables/useModal';
 import navbar from '@/components/Navbar.vue'
 
 const router = useRouter();
 </script>
 
 <template>
-  <modal-rucher></modal-rucher>
+  <modal-rucher v-if="modals.rucher.show" ></modal-rucher>
+  <modal-activity v-if="modals.activity.show" ></modal-activity>
   <navbar v-if="router.currentRoute.value.name !== 'login'"></navbar>
   <div class="application-content">
     <RouterView />

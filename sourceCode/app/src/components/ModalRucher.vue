@@ -4,7 +4,7 @@ import { modals, closeModal } from '@/composables/useModal';
 import { updateRucher, createRucher } from '@/composables/useRucher';
 import { currentRucher } from '@/composables/useModal';
 import { getUserId } from '@/utils';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { z } from 'zod';
 
 const getTitle = () => {
@@ -14,9 +14,9 @@ const getTitle = () => {
     }
 }
 
-const nbr = ref(modals.rucher.mode === 'modify' ? currentRucher.value?.rucNumero ? currentRucher.value.rucNumero : '' : '')
-const name = ref(modals.rucher.mode === 'modify' ? currentRucher.value?.rucNom ? currentRucher.value.rucNom : '' : '')
-const localisation = ref(modals.rucher.mode === 'modify' ? currentRucher.value?.rucLocalisation ? currentRucher.value.rucLocalisation : '' : '')
+const nbr = ref('')
+const name = ref('')
+const localisation = ref('')
 
 const create = () => {
     createRucher({
@@ -50,12 +50,17 @@ const validate = () => {
         case 'modify': update(); break
     }
 }
+
+onMounted(() => {
+    nbr.value = modals.rucher.mode === 'modify' ? currentRucher.value?.rucNumero ? `${currentRucher.value.rucNumero}` : '' : ''
+    name.value = modals.rucher.mode === 'modify' ? currentRucher.value?.rucNom ? currentRucher.value.rucNom : '' : ''
+    localisation.value = modals.rucher.mode === 'modify' ? currentRucher.value?.rucLocalisation ? currentRucher.value.rucLocalisation : '' : ''
+})
 </script>
 
 <template>
     <modal 
         :title="getTitle()" 
-        v-if="modals.rucher.show" 
         @validated="validate()" 
         @canceled="closeModal('rucher')" 
         @background-clicked="closeModal('rucher')"

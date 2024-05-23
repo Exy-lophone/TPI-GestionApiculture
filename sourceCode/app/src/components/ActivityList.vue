@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import { createFetchResult } from '@/composables/useFetch';
+import { type FetchResult } from '@/composables/useFetch';
 import { z } from 'zod';
-import { BASE_URL, activityParser, getToken } from '@/utils';
+import { type Activity } from '@/utils';
 import ActivityItem from '@/components/ActivityItem.vue';
+import { activitiesByRucheFetch, activitiesByRucherFetch, activitiesFetch, loadAllActivities, loadAllActivitiesByRucheId, loadAllActivitiesByRucherId } from '@/composables/useActivity';
+import { showModal } from '@/composables/useModal';
 
 export type ActivityListProps = {
     from: 'rucher' | 'ruche' | 'all'
@@ -17,26 +19,18 @@ const props = withDefaults(defineProps<ActivityListProps>(), {
 const getDateFromIsoDate = (isoDate: string) => {
     return isoDate.split('T')[0]
 }
+
 const getTimeFromIsoDate = (isoDate: string) => {
     const time = isoDate.split('T')[1].split(':')
     return time[0] + ':' + time[1]
 }
-const getURL = () => {
-    switch (props.from) {
-        case 'all': return BASE_URL+`/activite/year/${props.year}`;
-        case 'ruche': return BASE_URL+`/ruche/${route.params.id}/activites`;
-        case 'rucher': return BASE_URL+`/rucher/${route.params.id}/activites`;
-    }
-}
+
 const filterRuche = (id: number) => {
     if(props.from !== 'ruche') return true
     return id === z.coerce.number().parse(route.params.id)
 }
 
-const parser = z.array(activityParser)
-type Activities = z.infer<typeof parser>
-
-const unwrapActivities = (activities: Activities | null) => {
+const unwrapActivities = (activities: Activity[] | null) => {
     if(!activities) return []
     return activities.flatMap(x => {
         return x.ruches.map(y => ({
@@ -51,22 +45,27 @@ const unwrapActivities = (activities: Activities | null) => {
 }
 
 const route = useRoute()
-const activities = createFetchResult<Activities>()
-activities.load({
-    url: getURL(),
-    req: {
-        headers: {
-            'Authorization': `bearer ${getToken()}` 
-        }
-    },
-    parser
-})
+
+let activities: FetchResult<Activity[]>;
+switch (props.from) {
+    case 'all': 
+        activities = activitiesFetch;
+        loadAllActivities(props.year);
+        break;
+    case 'ruche': 
+        activities = activitiesByRucheFetch;
+        loadAllActivitiesByRucheId(z.coerce.number().parse(route.params.id));
+        break;
+    case 'rucher': activities = activitiesByRucherFetch;
+        loadAllActivitiesByRucherId(z.coerce.number().parse(route.params.id));
+        break;
+}
 </script>
 
 <template>
     <div v-if="props.from !== 'all'" class="activity-list-title d-flex">
         <h3 class="font-size-h3 font-bold">Activité(s)</h3>
-        <button class="btn-white outline-shadow">Ajouter +</button>
+        <button class="btn-white outline-shadow" @click="showModal('activity', 'add')">Ajouter +</button>
     </div>
     <div class="activity-list d-flex">
         <template v-for="activity in unwrapActivities(activities.data.value)" :key="activity.idActivite">          

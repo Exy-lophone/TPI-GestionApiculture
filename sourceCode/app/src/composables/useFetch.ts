@@ -43,13 +43,14 @@ export const createFetchResult = <T>(): FetchResult<T> => {
     }
 }
 
-export const useFetch = async (url: string, req: RequestInit) => {
+export const useFetch = async (url: string, req: RequestInit, callback?: () => void) => {
     try {
         const response = await fetch(url,req)
         const json = await response.json()
         if(!(response.status >= 200 && response.status < 300)) {
             throw Error (json.error)
         }
+        if(callback) callback()
     } catch (err) {
         console.log(err)
     }
