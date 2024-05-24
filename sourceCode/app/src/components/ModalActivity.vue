@@ -1,24 +1,31 @@
 <script setup lang="ts">
 import Modal from '@/components/Modal.vue'
 import { modals, closeModal, currentActivity } from '@/composables/useModal';
-import { updateRucher, createRucher } from '@/composables/useRucher';
-import { currentRucher } from '@/composables/useModal';
-import { getUserId } from '@/utils';
+import { categoriesFetch } from '@/composables/useCategories';
 import { onMounted, ref } from 'vue';
 import { z } from 'zod';
+import Dropdown from './Dropdown.vue';
+import { type DropDownItem } from './Dropdown.vue';
 
 const date = ref('')
 const duree = ref('')
 const description = ref('')
+let selected: DropDownItem = { display: 'catégorie', value: '' }
+let selectable: DropDownItem[] = []
+
+if(categoriesFetch.data.value) {
+    selectable = categoriesFetch.data.value.map(x => ({display: x.catNom, value: `${x.idCategorie}`}))
+}
 
 const getTitle = () => {
-    switch (modals.rucher.mode) {
+    switch (modals.activity.mode) {
         case 'add': return 'Ajouter'
         case 'modify': return 'Modifier'
     }
 }
 
 const create = () => {
+    
     closeModal('activity')
 }
 
@@ -32,29 +39,22 @@ const update = () => {
 }
 
 const validate = () => {
-    switch (modals.rucher.mode) {
+    switch (modals.activity.mode) {
         case 'add': create(); break
         case 'modify': update(); break
     }
 }
-
-onMounted(() => {
-
-})
 </script>
 
 <template>
     <modal 
         :title="getTitle()" 
         @validated="validate()" 
-        @canceled="closeModal('rucher')" 
-        @background-clicked="closeModal('rucher')"
+        @canceled="closeModal('activity')" 
+        @background-clicked="closeModal('activity')"
     >
         <div class="modal-body-row d-flex">
-            <div class="modal-label-input d-flex">
-                <label class="font-bold">Catégorie:</label>
-                <input id="modal-activity-input" type="text" placeholder="Catégorie"></input>
-            </div>
+            <dropdown v-bind="{selectable,selected}" @selected="x => selected = x"></dropdown>
             <div class="modal-label-input d-flex">
                 <label class="font-bold">Date:</label>
                 <input id="modal-activity-input" v-model="date" type="text" placeholder="DD/MM/YYYY" ></input>

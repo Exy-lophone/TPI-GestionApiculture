@@ -52,9 +52,11 @@ const validate = () => {
 }
 
 onMounted(() => {
-    nbr.value = modals.rucher.mode === 'modify' ? currentRucher.value?.rucNumero ? `${currentRucher.value.rucNumero}` : '' : ''
-    name.value = modals.rucher.mode === 'modify' ? currentRucher.value?.rucNom ? currentRucher.value.rucNom : '' : ''
-    localisation.value = modals.rucher.mode === 'modify' ? currentRucher.value?.rucLocalisation ? currentRucher.value.rucLocalisation : '' : ''
+    if(modals.rucher.mode === 'modify') {
+        nbr.value = currentRucher.value?.rucNumero ? `${currentRucher.value.rucNumero}` : ''
+        name.value = currentRucher.value?.rucNom ? currentRucher.value.rucNom : ''
+        localisation.value = currentRucher.value?.rucLocalisation ? currentRucher.value.rucLocalisation : ''
+    }
 })
 </script>
 

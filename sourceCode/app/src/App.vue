@@ -4,8 +4,9 @@ import ModalRucher from './components/ModalRucher.vue';
 import ModalActivity from './components/ModalActivity.vue';
 import { modals } from './composables/useModal';
 import navbar from '@/components/Navbar.vue'
-
+import { loadAllCategories } from './composables/useCategories';
 const router = useRouter();
+loadAllCategories()
 </script>
 
 <template>

@@ -57,3 +57,10 @@ export const activityParser = z.object({
 })
 
 export type Activity = z.infer<typeof activityParser>
+
+export const categoryParser = z.object({
+    idCategorie: z.number(),
+    catNom: z.string()
+})
+
+export type Category = z.infer<typeof categoryParser>

@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { type Activity } from '@/utils';
 import ActivityItem from '@/components/ActivityItem.vue';
 import { activitiesByRucheFetch, activitiesByRucherFetch, activitiesFetch, loadAllActivities, loadAllActivitiesByRucheId, loadAllActivitiesByRucherId } from '@/composables/useActivity';
-import { showModal } from '@/composables/useModal';
+import { currentActivity, showModal } from '@/composables/useModal';
 
 export type ActivityListProps = {
     from: 'rucher' | 'ruche' | 'all'
@@ -60,6 +60,7 @@ switch (props.from) {
         loadAllActivitiesByRucherId(z.coerce.number().parse(route.params.id));
         break;
 }
+
 </script>
 
 <template>
