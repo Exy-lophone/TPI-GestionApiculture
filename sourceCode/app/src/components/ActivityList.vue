@@ -58,10 +58,16 @@ switch (props.from) {
                 :key="activity.idActivite"
                 v-bind="{
                     id: activity.idActivite,
-                    category: activity.categorie.catNom,
+                    category: {
+                        id: activity.categorie.idCategorie,
+                        name: activity.categorie.catNom
+                    },
                     date: getDateFromIsoDate(activity.actDate),
                     time: getTimeFromIsoDate(activity.actDuree),
-                    nbRuche: activity.ruches.rucNumero,
+                    ruche: {
+                        id: activity.ruches.idRuche,
+                        number: activity.ruches.rucNumero
+                    },
                     description: activity.actDescription
                 }"
             ></activity-item>

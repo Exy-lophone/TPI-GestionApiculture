@@ -28,9 +28,17 @@ export const modals = reactive<Modal>({
     }
 })
 
+export type RucheCreate = {
+    nbr: number,
+    description: string,
+    fkReine: number,
+    fkRucher: number,
+    fkCouleur: number
+}
+
 export const currentRucher: Ref<Rucher | null> = ref(null)
-export const currentRuche: Ref<Ruche | null> = ref(null)
-export const currentActivity: Ref<Activity | null> = ref(null)
+export const currentRuche: Ref<RucheCreate | null> = ref(null)
+export const currentActivity: Ref<Omit<Activity, "ruches"> | null> = ref(null)
 
 
 export const showModal = (name: keyof Modal, mode: ModalMode['mode']) => {

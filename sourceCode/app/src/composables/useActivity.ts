@@ -89,3 +89,19 @@ export const deleteActivityById = async (id: number) => {
     })
     loadAllActivities(2024)
 }
+
+export const updateActivityById = async (id: number, description?: string, dateTime?: string, fkCategorie?: number, fkRucheOrRucher?: number) => {
+    await useFetch(BASE_URL+`/activite/${id}`, {
+        method: 'PATCH',
+        headers: {
+            'Authorization': `bearer ${getToken()}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            description, 
+            dateTime,
+            fkCategorie, 
+            fkRucheOrRucher
+        })
+    })
+}

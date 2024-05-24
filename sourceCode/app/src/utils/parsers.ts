@@ -64,3 +64,23 @@ export const categoryParser = z.object({
 })
 
 export type Category = z.infer<typeof categoryParser>
+
+export const colorParser = z.object({
+    idCouleur: z.number(),
+    couNom: z.string(),
+    couCodeHex: z.string()
+})
+
+export type Color = z.infer<typeof colorParser>
+
+export const queenParser = z.object({
+    idReine: z.number(),
+    reiAnneNaissance: z.number(),
+    couleur: z.object({
+        idCouleur: z.number(),
+        couNom: z.string(),
+        couCodeHex: z.string()
+    })
+})
+
+export type Queen = z.infer<typeof queenParser>

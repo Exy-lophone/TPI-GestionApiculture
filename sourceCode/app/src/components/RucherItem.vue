@@ -8,6 +8,7 @@ import { BASE_URL, rucheParser, getToken } from '@/utils';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { deleteRucherById } from '@/composables/useRucher';
+import { currentRuche, modals, showModal } from '@/composables/useModal';
 
 export type RucherItemProps = {
     id: number,
@@ -33,7 +34,16 @@ ruches.load({
 const toggleShowRuche = () => {
     showRuche.value = !showRuche.value
 }
-
+const showRucheModal = () => {
+    currentRuche.value = {
+        nbr: 1,
+        description: '',
+        fkCouleur: 1,
+        fkReine: 1,
+        fkRucher: props.id
+    }
+    showModal('ruche', 'add')
+}
 </script>
 
 <template>
@@ -57,6 +67,9 @@ const toggleShowRuche = () => {
                     id: ruche.idRuche
                 }"
             ></ruche-item>
+            <div class="outline-shadow btn-add-ruche d-flex font-bold" @click="showRucheModal()">
+                Ajouter +
+            </div>
         </div>
     </div>
 </template>
@@ -85,5 +98,12 @@ const toggleShowRuche = () => {
     border-radius: 1rem;
     padding: 2rem 2rem;
     gap: 2rem;
+}
+
+.btn-add-ruche {
+    border-radius: 1rem;
+    width: 20rem;
+    height: 4.125rem;
+    background-color: var(--neutral-0);
 }
 </style>

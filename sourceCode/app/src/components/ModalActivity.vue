@@ -2,8 +2,8 @@
 import Modal from '@/components/Modal.vue'
 import { modals, closeModal, currentActivity } from '@/composables/useModal';
 import { categoriesFetch } from '@/composables/useCategories';
-import { createCategoryOnRucher, createCategoryOnRuche, loadAllActivitiesByRucheId, loadAllActivitiesByRucherId } from '@/composables/useActivity';
-import { ref } from 'vue';
+import { createCategoryOnRucher, createCategoryOnRuche, loadAllActivitiesByRucheId, loadAllActivitiesByRucherId, updateActivityById, loadAllActivities, year } from '@/composables/useActivity';
+import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { z } from 'zod';
 import Dropdown from './Dropdown.vue';
@@ -56,7 +56,37 @@ const update = () => {
         console.error('[ModalActivity] currentActivity is null')
         return
     }
-
+    if(route.name === 'activity') {
+        updateActivityById(
+            currentActivity.value.idActivite,
+            description.value,
+            `${date.value}T${duree.value}:00Z`,
+            z.coerce.number().parse(selected.value)
+        ).then(
+            () => loadAllActivities(year.value)
+        )
+    }
+    if(route.name === 'ruche') {
+        updateActivityById(
+            currentActivity.value.idActivite,
+            description.value,
+            `${date.value}T${duree.value}:00Z`,
+            z.coerce.number().parse(selected.value)
+        ).then(
+            () => loadAllActivitiesByRucheId(z.coerce.number().parse(route.params.id))
+        )
+    }
+    if(route.name === 'rucher') {
+        updateActivityById(
+            currentActivity.value.idActivite,
+            description.value,
+            `${date.value}T${duree.value}:00Z`,
+            z.coerce.number().parse(selected.value),
+            z.coerce.number().parse(route.params.id)
+        ).then(
+            () => loadAllActivitiesByRucherId(z.coerce.number().parse(route.params.id))
+        )
+    }
     closeModal('activity')
 }
 
@@ -66,6 +96,15 @@ const validate = () => {
         case 'modify': update(); break
     }
 }
+
+if (modals.activity.mode === 'modify' && currentActivity.value) {
+    const activity = currentActivity.value;
+    selected = { display: activity.categorie.catNom, value: `${activity.categorie.idCategorie}`}
+    duree.value = currentActivity.value.actDuree
+    date.value = currentActivity.value.actDate
+    description.value = currentActivity.value.actDescription
+}
+
 </script>
 
 <template>

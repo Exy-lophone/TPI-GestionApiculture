@@ -2,14 +2,20 @@
 import { RouterView, useRouter } from 'vue-router'
 import ModalRucher from './components/ModalRucher.vue';
 import ModalActivity from './components/ModalActivity.vue';
+import ModalRuche from './components/ModalRuche.vue';
 import { modals } from './composables/useModal';
 import navbar from '@/components/Navbar.vue'
 import { loadAllCategories } from './composables/useCategories';
+import { loadAllColor } from './composables/useColor';
+import { loadAllQueen } from './composables/useQueen';
 const router = useRouter();
 loadAllCategories()
+loadAllColor()
+loadAllQueen()
 </script>
 
 <template>
+  <modal-ruche v-if="modals.ruche.show"></modal-ruche>
   <modal-rucher v-if="modals.rucher.show" ></modal-rucher>
   <modal-activity v-if="modals.activity.show" ></modal-activity>
   <navbar v-if="router.currentRoute.value.name !== 'login'"></navbar>
