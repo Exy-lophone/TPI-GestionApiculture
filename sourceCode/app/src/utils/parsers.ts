@@ -53,7 +53,7 @@ export const activityParser = z.object({
         idCategorie: z.number(),
         catNom: z.string()
     }),
-    ruches: z.array(rucheParser)
+    ruches: rucheParser
 })
 
 export type Activity = z.infer<typeof activityParser>

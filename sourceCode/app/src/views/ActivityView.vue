@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import ActivityList from '@/components/ActivityList.vue';
 import ArrowIcon from '@/components/ArrowIcon.vue';
-import { ref } from 'vue';
+import { year } from '@/composables/useActivity';
 
-const year = ref(2024)
 const incrementYear = () => year.value++
 const decrementYear = () => year.value--
 </script>
@@ -18,7 +17,7 @@ const decrementYear = () => year.value--
                 <arrow-icon direction="right" @click="incrementYear()"></arrow-icon>
             </div>
         </div>
-        <activity-list from="all" :year="year" :key="year"></activity-list>
+        <activity-list from="all" :key="year"></activity-list>
     </div>
 </template>
 

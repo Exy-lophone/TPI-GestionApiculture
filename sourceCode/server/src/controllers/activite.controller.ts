@@ -4,13 +4,13 @@ import { activiteParser, activitePartialParser, idParser } from '../validation'
 
 const createOnRuche = asyncHandler(async (req, res) => {
     const activite = activiteParser.parse(req.body)
-    const activiteRecord = await activiteDB.createAndConnectToRuche(activite)
+    const activiteRecord = await activiteDB.createOnRuche(activite)
     res.status(status.OK_CREATED).json(activiteRecord)
 })
 
 const createOnRucher = asyncHandler(async (req, res) => {
     const activite = activiteParser.parse(req.body)
-    const activiteRecord = await activiteDB.createAndConnectToRucher(activite)
+    const activiteRecord = await activiteDB.createOnRucher(activite)
     res.status(status.OK_CREATED).json(activiteRecord)
 })
 

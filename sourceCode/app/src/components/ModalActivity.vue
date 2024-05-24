@@ -2,11 +2,14 @@
 import Modal from '@/components/Modal.vue'
 import { modals, closeModal, currentActivity } from '@/composables/useModal';
 import { categoriesFetch } from '@/composables/useCategories';
-import { onMounted, ref } from 'vue';
+import { createCategoryOnRucher, createCategoryOnRuche, loadAllActivitiesByRucheId, loadAllActivitiesByRucherId } from '@/composables/useActivity';
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 import { z } from 'zod';
 import Dropdown from './Dropdown.vue';
 import { type DropDownItem } from './Dropdown.vue';
 
+const route = useRoute()
 const date = ref('')
 const duree = ref('')
 const description = ref('')
@@ -25,7 +28,26 @@ const getTitle = () => {
 }
 
 const create = () => {
-    
+    if(route.name === 'ruche') {
+        createCategoryOnRuche(
+            description.value,
+            `${date.value}T${duree.value}:00Z`,
+            z.coerce.number().parse(selected.value),
+            z.coerce.number().parse(route.params.id)
+        ).then(
+            () => loadAllActivitiesByRucheId(z.coerce.number().parse(route.params.id))
+        )
+    }
+    if(route.name === 'rucher') {
+        createCategoryOnRucher(
+            description.value,
+            `${date.value}T${duree.value}:00Z`,
+            z.coerce.number().parse(selected.value),
+            z.coerce.number().parse(route.params.id)
+        ).then(
+            () => loadAllActivitiesByRucherId(z.coerce.number().parse(route.params.id))
+        )
+    }
     closeModal('activity')
 }
 
@@ -57,7 +79,7 @@ const validate = () => {
             <dropdown v-bind="{selectable,selected}" @selected="x => selected = x"></dropdown>
             <div class="modal-label-input d-flex">
                 <label class="font-bold">Date:</label>
-                <input id="modal-activity-input" v-model="date" type="text" placeholder="DD/MM/YYYY" ></input>
+                <input id="modal-activity-input" v-model="date" type="text" placeholder="YYYY-MM-DD" ></input>
             </div>
             <div class="modal-label-input d-flex">
                 <label class="font-bold">Duree:</label>

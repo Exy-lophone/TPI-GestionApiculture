@@ -4,17 +4,14 @@ import { type FetchResult } from '@/composables/useFetch';
 import { z } from 'zod';
 import { type Activity } from '@/utils';
 import ActivityItem from '@/components/ActivityItem.vue';
-import { activitiesByRucheFetch, activitiesByRucherFetch, activitiesFetch, loadAllActivities, loadAllActivitiesByRucheId, loadAllActivitiesByRucherId } from '@/composables/useActivity';
-import { currentActivity, showModal } from '@/composables/useModal';
+import { year, activitiesByRucheFetch, activitiesByRucherFetch, activitiesFetch, loadAllActivities, loadAllActivitiesByRucheId, loadAllActivitiesByRucherId } from '@/composables/useActivity';
+import { showModal } from '@/composables/useModal';
 
 export type ActivityListProps = {
     from: 'rucher' | 'ruche' | 'all'
-    year?: number
 }
 
-const props = withDefaults(defineProps<ActivityListProps>(), {
-    year: 2024
-})
+const props = defineProps<ActivityListProps>()
 
 const getDateFromIsoDate = (isoDate: string) => {
     return isoDate.split('T')[0]
@@ -30,27 +27,13 @@ const filterRuche = (id: number) => {
     return id === z.coerce.number().parse(route.params.id)
 }
 
-const unwrapActivities = (activities: Activity[] | null) => {
-    if(!activities) return []
-    return activities.flatMap(x => {
-        return x.ruches.map(y => ({
-            idActivite: x.idActivite,
-            actDate: x.actDate,
-            actDuree: x.actDuree,
-            actDescription: x.actDescription,
-            categorie: x.categorie,
-            ruche: y
-        }))
-    })
-}
-
 const route = useRoute()
 
 let activities: FetchResult<Activity[]>;
 switch (props.from) {
     case 'all': 
         activities = activitiesFetch;
-        loadAllActivities(props.year);
+        loadAllActivities(year.value);
         break;
     case 'ruche': 
         activities = activitiesByRucheFetch;
@@ -69,16 +52,16 @@ switch (props.from) {
         <button class="btn-white outline-shadow" @click="showModal('activity', 'add')">Ajouter +</button>
     </div>
     <div class="activity-list d-flex">
-        <template v-for="activity in unwrapActivities(activities.data.value)" :key="activity.idActivite">          
+        <template v-for="activity in activities.data.value" :key="activity.idActivite">          
             <activity-item
-                v-if="filterRuche(activity.ruche.idRuche)"
+                v-if="filterRuche(activity.ruches.idRuche)"
                 :key="activity.idActivite"
                 v-bind="{
-                    id: activity.ruche.idRuche,
+                    id: activity.idActivite,
                     category: activity.categorie.catNom,
                     date: getDateFromIsoDate(activity.actDate),
                     time: getTimeFromIsoDate(activity.actDuree),
-                    nbRuche: activity.ruche.rucNumero,
+                    nbRuche: activity.ruches.rucNumero,
                     description: activity.actDescription
                 }"
             ></activity-item>

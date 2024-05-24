@@ -25,23 +25,19 @@ const select = {
     }
 }
 
-const createAndConnectToRuche = async (activite: Activite) => {
+const createOnRuche = async (activite: Activite) => {
     return await prisma.t_activite.create({
         data: {
             actDescription: activite.description,
             actDate: activite.dateTime,
             actDuree: activite.dateTime,
             fkCategorie: activite.fkCategorie,
-            ruches: {
-                connect: {
-                    idRuche: activite.fkRucheOrRucher
-                }
-            }
+            fkRuche: activite.fkRucheOrRucher
         }
     })
 }
 
-const createAndConnectToRucher = async (activite: Activite) => {
+const createOnRucher = async (activite: Activite) => {
     return await prisma.$transaction(async (tx) => {
         const ids = await tx.t_ruche.findMany({
             select: {
@@ -51,16 +47,15 @@ const createAndConnectToRucher = async (activite: Activite) => {
                 fkRucher: activite.fkRucheOrRucher
             }
         })
-        return await tx.t_activite.create({
-            data: {
-                actDescription: activite.description,
-                actDate: activite.dateTime,
-                actDuree: activite.dateTime,
-                fkCategorie: activite.fkCategorie,
-                ruches: {
-                    connect: ids
-                }
-            }
+        const toCreate = ids.map(x => ({
+            actDescription: activite.description,
+            actDate: activite.dateTime,
+            actDuree: activite.dateTime,
+            fkCategorie: activite.fkCategorie,
+            fkRuche: x.idRuche
+        }))
+        return await tx.t_activite.createMany({
+            data: toCreate
         })
     })
 }
@@ -83,9 +78,7 @@ const getByRucheId = async (id: number) => {
         select,
         where: {
             ruches: {
-                some: {
-                    idRuche: id
-                }
+                idRuche: id
             }
         },
     })
@@ -96,9 +89,7 @@ const getByRucherId = async (id: number) => {
         select,
         where: {
             ruches: {
-                some: {
-                    fkRucher: id
-                }
+                fkRucher: id
             }
         }
     })
@@ -139,8 +130,8 @@ const deleteById = async(id: number) => {
 }
 
 export const activiteDB = {
-    createAndConnectToRuche,
-    createAndConnectToRucher,
+    createOnRuche,
+    createOnRucher,
     getAll,
     getById,
     getByRucheId,

@@ -1,15 +1,30 @@
 @baseUrl = http://localhost:3000/activite
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjM1OTQ5MywiZXhwIjoxNzE2MzYzMDkzfQ.OqNnfbdKK6VLK4t_bEd-1UiT9Fk6U-t2eyS1wy6Fkxc
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjU0MzI4MCwiZXhwIjoxNzE2NjI5NjgwfQ.wP3BAVuCXBykdxyqXJrSfbcGHHaHBl43fHc7p83p7GE
 
 ###
-POST {{baseUrl}}
+POST {{baseUrl}}/onRuche
 Content-Type: application/json
+Authorization: bearer {{authToken}}
 
 {
     "description": "description de l'activité",
     "dateTime": "2024-05-20T00:45:30Z",
-    "fkCategorie": 2
+    "fkCategorie": 2,
+    "fkRucheOrRucher": 6
 }
+
+###
+POST {{baseUrl}}/onRucher
+Content-Type: application/json
+Authorization: bearer {{authToken}}
+
+{
+    "description": "description de l'activité",
+    "dateTime": "2024-05-20T00:45:30Z",
+    "fkCategorie": 2,
+    "fkRucheOrRucher": 1
+}
+
 
 ###
 GET {{baseUrl}}
@@ -30,4 +45,5 @@ Content-Type: application/json
 }
 
 ###
-DELETE {{baseUrl}}/3
+DELETE {{baseUrl}}/13
+Authorization: bearer {{authToken}}

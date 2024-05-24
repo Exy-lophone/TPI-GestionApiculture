@@ -20,7 +20,8 @@ model t_activite {
   actDuree       DateTime    @db.Time()
   categorie      t_categorie @relation(fields: [fkCategorie], references: [idCategorie])
   fkCategorie    Int         @db.UnsignedInt
-  ruches         t_ruche[]
+  ruches         t_ruche     @relation(fields: [fkRuche], references: [idRuche])
+  fkRuche        Int         @db.UnsignedInt @default(5)
 }
 
 model t_apiculteur {
