@@ -4,49 +4,48 @@ import { createFetchResult } from '@/composables/useFetch';
 import { z } from 'zod';
 import { BASE_URL, rucheParser, activityParser, getToken } from '@/utils';
 import ActivityList from '@/components/ActivityList.vue';
+import { currentRuche, showModal } from '@/composables/useModal';
+import { rucheDetailFetch, loadRucheDetailById} from '@/composables/useRuche';
 
 const route = useRoute()
-const parser = z.array(activityParser)
-const activities = createFetchResult<z.infer<typeof parser>>()
-const ruche = createFetchResult<z.infer<typeof rucheParser>>()
-ruche.load({
-    url: BASE_URL+`/ruche/${route.params.id}`,
-    req: {
-        headers: {
-            'Authorization': `bearer ${getToken()}`
-        }
-    },
-    parser: rucheParser
-})
-activities.load({
-    url: BASE_URL+`/ruche/${route.params.id}/activites`,
-    req: {
-        headers: {
-            'Authorization': `bearer ${getToken()}` 
-        }
-    },
-    parser
-})
+loadRucheDetailById(z.coerce.number().parse(route.params.id))
+
+const showRucheModal = () => {
+    if(!rucheDetailFetch.data.value) {
+        console.error('[RucheView] rucheDetailFetch.data.value is null')
+        return
+    }
+    const ruche = rucheDetailFetch.data.value
+    currentRuche.value = {
+        id: ruche.idRuche,
+        nbr: ruche.rucNumero,
+        description: ruche.rucDescription,
+        fkCouleur: ruche.couleur.idCouleur,
+        fkReine: ruche.reine.idReine,
+        fkRucher: ruche.rucher.idRucher
+    }
+    showModal('ruche','modify')
+}
 </script>
 
 <template>
     <div class="main-content">
-        <div class="ruche-info d-flex" v-if="!ruche.loading.value">
-            <h4 class="font-size-h4 font-bold">Rucher: {{ ruche.data.value?.rucher.rucNom }}</h4>
-            <h4 class="font-size-h4 font-bold">Numéro: {{ ruche.data.value?.rucNumero }}</h4>
-            <h4 class="font-size-h4 font-bold">Couleur: {{ ruche.data.value?.couleur.couNom }}</h4>
+        <div class="ruche-info d-flex" v-if="!rucheDetailFetch.loading.value">
+            <h4 class="font-size-h4 font-bold">Rucher: {{ rucheDetailFetch.data.value?.rucher.rucNom }}</h4>
+            <h4 class="font-size-h4 font-bold">Numéro: {{ rucheDetailFetch.data.value?.rucNumero }}</h4>
+            <h4 class="font-size-h4 font-bold">Couleur: {{ rucheDetailFetch.data.value?.couleur.couNom }}</h4>
             <div class="ruche-info-section">
                 <h4 class="font-size-h4 font-bold">Reine:</h4>
                 <ul>
-                    <li class="font-size-h5 font-bold">Couleur: {{ ruche.data.value?.reine.couleur.couNom }}</li>
-                    <li class="font-size-h5 font-bold">Naissance: {{ ruche.data.value?.reine.reiAnneNaissance }}</li>
+                    <li class="font-size-h5 font-bold">Couleur: {{ rucheDetailFetch.data.value?.reine.couleur.couNom }}</li>
+                    <li class="font-size-h5 font-bold">Naissance: {{ rucheDetailFetch.data.value?.reine.reiAnneNaissance }}</li>
                 </ul>
             </div>
             <div class="ruche-info-section d-flex">
                 <h4 class="font-size-h4 font-bold">Description:</h4>
-                <p>{{  ruche.data.value?.rucDescription }}</p>
+                <p>{{ rucheDetailFetch.data.value?.rucDescription }}</p>
             </div>
-            <button class="btn-yellow outline-shadow">Modifier</button>
+            <button class="btn-yellow outline-shadow" @click="showRucheModal()">Modifier</button>
         </div>
         <activity-list from="ruche"></activity-list>
     </div>

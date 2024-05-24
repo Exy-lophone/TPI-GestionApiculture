@@ -1,3 +1,41 @@
+<!-- <script setup lang="ts">
+import { z } from 'zod';
+import ArrowIcon from './ArrowIcon.vue';
+import TrashIcon from './TrashIcon.vue';
+import RucheItem from './RucheItem.vue';
+import { ref } from 'vue';
+import { loadAllRucheByRucherId, ruchesFetch } from '@/composables/useRuche';
+import { useRouter } from 'vue-router';
+import { deleteRucherById } from '@/composables/useRucher';
+import { currentRuche, showModal } from '@/composables/useModal';
+
+export type RucherItemProps = {
+    id: number,
+    nbr: number,
+    name: string,
+    localisation: string,
+}
+
+const router = useRouter()
+const props = defineProps<RucherItemProps>()
+const showRuche = ref(false);
+loadAllRucheByRucherId(props.id)
+
+const toggleShowRuche = () => {
+    showRuche.value = !showRuche.value
+}
+const showRucheModal = () => {
+    currentRuche.value = {
+        nbr: 1,
+        description: '',
+        fkCouleur: 1,
+        fkReine: 1,
+        fkRucher: props.id
+    }
+    showModal('ruche', 'add')
+}
+</script> -->
+
 <script setup lang="ts">
 import { z } from 'zod';
 import ArrowIcon from './ArrowIcon.vue';
@@ -98,6 +136,7 @@ const showRucheModal = () => {
     border-radius: 1rem;
     padding: 2rem 2rem;
     gap: 2rem;
+    flex-wrap: wrap;
 }
 
 .btn-add-ruche {

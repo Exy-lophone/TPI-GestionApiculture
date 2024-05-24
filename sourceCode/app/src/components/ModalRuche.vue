@@ -4,10 +4,10 @@ import { modals, closeModal, currentRuche } from '@/composables/useModal';
 import { colorFetch } from '@/composables/useColor';
 import { queenFetch } from '@/composables/useQueen';
 import { ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { string, z } from 'zod';
+import { z } from 'zod';
 import Dropdown from './Dropdown.vue';
 import { type DropDownItem } from './Dropdown.vue';
+import { createRuche, updateRuche  } from '@/composables/useRuche';
 
 const nbr = ref('')
 const description = ref('')
@@ -45,10 +45,38 @@ const getTitle = () => {
 }
 
 const create = () => {
+    if(!currentRuche.value) {
+        console.error('[ModalRuche] currentRuche is null !')
+        return
+    }
+    const rucherId = currentRuche.value.fkRucher
+    createRuche({
+        nbr: z.coerce.number().parse(nbr.value),
+        description: description.value,
+        fkCouleur: z.coerce.number().parse(dropdownItems.color.selected.value),
+        fkReine: z.coerce.number().parse(dropdownItems.queen.selected.value),
+        fkRucher: rucherId
+    })
     closeModal('ruche')
 }
 
 const update = () => {
+    if(!currentRuche.value) {
+        console.error('[ModalRuche] currentRuche.value is null !')
+        return
+    }
+    if(!currentRuche.value.id) {
+        console.error('[ModalRuche] currentRuche.value.id is null !')
+        return
+    }
+    updateRuche({
+        id: currentRuche.value.id,
+        nbr: z.coerce.number().parse(nbr.value),
+        description: description.value,
+        fkCouleur: z.coerce.number().parse(dropdownItems.color.selected.value),
+        fkReine: z.coerce.number().parse(dropdownItems.queen.selected.value),
+        fkRucher: currentRuche.value.fkRucher
+    }, )
     closeModal('ruche')
 }
 
@@ -57,6 +85,13 @@ const validate = () => {
         case 'add': create(); break
         case 'modify': update(); break
     }
+}
+
+if (modals.ruche.mode === 'modify' && currentRuche.value) {
+    console.log('hello')
+    const ruche = currentRuche.value
+    nbr.value = `${ruche.nbr}`
+    description.value = ruche.description
 }
 
 </script>

@@ -29,6 +29,7 @@ export const modals = reactive<Modal>({
 })
 
 export type RucheCreate = {
+    id?: number,
     nbr: number,
     description: string,
     fkReine: number,
