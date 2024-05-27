@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3000/auth 
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjM4MzA0NCwiZXhwIjoxNzE2NDY5NDQ0fQ.gLX3GvZDarS3Wu9EeXlq-f1g1WsKOk-HYeR7rMY1RAk
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjc5MTg5NCwiZXhwIjoxNzE2ODc4Mjk0fQ.fWpoI0-UkUoFXKpRc6IrHPfwzeAbO3iIbYIjyEBA_Hk
 
 ### 
 POST {{baseUrl}}/register 
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
 
-    "username": "kevin", "password": "1234"
+    "username": "kevin", "password": "134"
 
 }
 

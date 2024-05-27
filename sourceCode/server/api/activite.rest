@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3000/activite
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjU0MzI4MCwiZXhwIjoxNzE2NjI5NjgwfQ.wP3BAVuCXBykdxyqXJrSfbcGHHaHBl43fHc7p83p7GE
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjc5MTg5NCwiZXhwIjoxNzE2ODc4Mjk0fQ.fWpoI0-UkUoFXKpRc6IrHPfwzeAbO3iIbYIjyEBA_Hk
 
 ###
 POST {{baseUrl}}/onRuche
@@ -21,8 +21,7 @@ Authorization: bearer {{authToken}}
 {
     "description": "description de l'activité",
     "dateTime": "2024-05-20T00:45:30Z",
-    "fkCategorie": 2,
-    "fkRucheOrRucher": 1
+    "fkCategorie": 2
 }
 
 
@@ -32,6 +31,7 @@ Authorization: bearer {{authToken}}
 
 ###
 GET {{baseUrl}}/year/2024
+Authorization: bearer {{authToken}}
 
 ###
 GET {{baseUrl}}/2 
