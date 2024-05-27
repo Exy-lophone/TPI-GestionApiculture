@@ -5,13 +5,8 @@ import ModalActivity from './components/ModalActivity.vue';
 import ModalRuche from './components/ModalRuche.vue';
 import { modals } from './composables/useModal';
 import navbar from '@/components/Navbar.vue'
-import { loadAllCategories } from './composables/useCategories';
-import { loadAllColor } from './composables/useColor';
-import { loadAllQueen } from './composables/useQueen';
 const router = useRouter();
-loadAllCategories()
-loadAllColor()
-loadAllQueen()
+
 </script>
 
 <template>

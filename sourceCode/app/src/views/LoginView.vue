@@ -5,6 +5,9 @@ import { createFetchResult } from '../composables/useFetch'
 import { z } from 'zod'
 import { loginParser } from '@/utils';
 import { BASE_URL } from '@/utils';
+import { loadAllCategories } from '@/composables/useCategories';
+import { loadAllColor } from '@/composables/useColor';
+import { loadAllQueen } from '@/composables/useQueen';
 
 const router = useRouter()
 const auth = createFetchResult<z.infer<typeof loginParser>>()
@@ -25,6 +28,9 @@ const authentify = () => {
     (x) => { 
         window.localStorage.setItem('token',x.token)
         window.localStorage.setItem('user_id',`${x.userId}`)
+        loadAllCategories()
+        loadAllColor()
+        loadAllQueen()
         router.push('/')
     });
 }
