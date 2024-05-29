@@ -17,7 +17,7 @@ const router = useRouter();
   <div class="application-content">
     <RouterView />
   </div>
-  <footer class="d-flex">
+  <footer v-if="router.currentRoute.value.name !== 'login'" class="d-flex">
     <div class="footer-title d-flex">
       <h5 class="font-size-h5 font-bold">TPI - 2024</h5>
       <h6 class="font-size-h6 font-bold">Gestion des activités d'un apiculteur</h6>
