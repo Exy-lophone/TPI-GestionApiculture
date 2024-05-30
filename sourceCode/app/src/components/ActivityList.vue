@@ -22,11 +22,6 @@ const getTimeFromIsoDate = (isoDate: string) => {
     return time[0] + ':' + time[1]
 }
 
-const filterRuche = (id: number) => {
-    if(props.from !== 'ruche') return true
-    return id === z.coerce.number().parse(route.params.id)
-}
-
 const route = useRoute()
 
 let activities: FetchResult<Activity[]>;
@@ -51,27 +46,25 @@ switch (props.from) {
         <h3 class="font-size-h3 font-bold">Activité(s)</h3>
         <button class="btn-white outline-shadow" @click="showModal('activity', 'add')">Ajouter +</button>
     </div>
-    <div class="activity-list d-flex">
-        <template v-for="activity in activities.data.value" :key="activity.idActivite">          
-            <activity-item
-                v-if="filterRuche(activity.ruches.idRuche)"
-                :key="activity.idActivite"
-                v-bind="{
-                    id: activity.idActivite,
-                    category: {
-                        id: activity.categorie.idCategorie,
-                        name: activity.categorie.catNom
-                    },
-                    date: getDateFromIsoDate(activity.actDate),
-                    time: getTimeFromIsoDate(activity.actDuree),
-                    ruche: {
-                        id: activity.ruches.idRuche,
-                        number: activity.ruches.rucNumero
-                    },
-                    description: activity.actDescription
-                }"
-            ></activity-item>
-        </template>
+    <div class="activity-list d-flex">         
+        <activity-item
+            v-for="activity in activities.data.value"
+            :key="activity.idActivite"
+            v-bind="{
+                id: activity.idActivite,
+                category: {
+                    id: activity.categorie.idCategorie,
+                    name: activity.categorie.catNom
+                },
+                date: getDateFromIsoDate(activity.actDate),
+                time: getTimeFromIsoDate(activity.actDuree),
+                ruche: {
+                    id: activity.ruches.idRuche,
+                    number: activity.ruches.rucNumero
+                },
+                description: activity.actDescription
+            }"
+        ></activity-item>
     </div>
 </template>
 
