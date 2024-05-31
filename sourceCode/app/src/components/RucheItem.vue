@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+import { deleteRucheById } from '@/composables/useRuche'
+import TrashIcon from './TrashIcon.vue';
 
 const router = useRouter()
 
@@ -18,6 +20,7 @@ const props = defineProps<RucheItemProps>()
         <div class="ruche-item-content d-flex">
             <p class="font-bold">#{{ props.nbr }}</p>
             <button class="btn-black" @click="router.push(`/ruche/${props.id}`)">Détails</button>
+            <button class="btn-red" @click="deleteRucheById(props.id)"><trash-icon></trash-icon></button>
         </div>
     </div>
 </template>

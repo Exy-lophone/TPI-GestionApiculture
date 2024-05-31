@@ -3,7 +3,6 @@ import { rucheParser, type Ruche } from '../utils'
 import { type RucheCreate } from '../composables/useModal'
 import { BASE_URL, getToken } from '../utils'
 import { loadAllRucher } from './useRucher'
-import { z } from 'zod'
 
 export const rucheDetailFetch = createFetchResult<Ruche>()
 
