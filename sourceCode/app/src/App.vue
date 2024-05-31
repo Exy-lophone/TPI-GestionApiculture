@@ -5,8 +5,18 @@ import ModalActivity from './components/ModalActivity.vue';
 import ModalRuche from './components/ModalRuche.vue';
 import { modals } from './composables/useModal';
 import navbar from '@/components/Navbar.vue'
+import { getToken } from './utils';
+import { loadAllCategories } from './composables/useCategories';
+import { loadAllColor } from './composables/useColor';
+import { loadAllQueen } from './composables/useQueen';
 const router = useRouter();
 
+const token = window.localStorage.getItem('token')
+if(token) {
+  loadAllCategories()
+  loadAllColor()
+  loadAllQueen()
+}
 </script>
 
 <template>
