@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-      "start": "ts-node ./src/index",
+      "start": "npx prisma migrate deploy && ts-node ./src/index",
       "dev": "nodemon"
     },
     "keywords": [],
