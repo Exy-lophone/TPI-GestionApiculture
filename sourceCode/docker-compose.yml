@@ -11,8 +11,8 @@ services:
       - dbdata:/var/lib/mysql
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h localhost -p$${MYSQL_ROOT_PASSWORD}"]
-      interval: 5s
-      timeout: 10s
+      interval: 10s
+      timeout: 20s
       retries: 10
   phpmyadmin:
     image: phpmyadmin:5.2.0
