@@ -1,0 +1,31 @@
+introduction.
+
+réalisation :
+- organisation du projet
+- Base de données
+- API
+- Frontend
+
+difficultés rencontrées :
+- state management :
+     - explication du problème
+     - solution appliquée + explication
+     - autres solutions
+- déploiement
+
+amélioration possible :
+- datepicker, color, css, design, UX
+- user session (bug)
+- serve vue.js through express (bug)
+- système de feedback
+- full english
+- folder structure
+
+conclusion :
+- satisfait
+- utilisable
+- bonne organisation ( aucun stress, dans les temps )
+- bilan personelle : 
+    - nouvelles idée
+    - meilleurs compréhension
+    - vision claire sur mes lacune
