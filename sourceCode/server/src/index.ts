@@ -19,8 +19,10 @@ app.use('/activite', verifyToken, activiteRouter)
 app.use('/couleur', verifyToken, couleurRouter)
 app.use('/reine', verifyToken, reineRouter)
 
-//Set up static files
 app.use(express.static('public'))
+
+//Reroute to vue app
+app.get('*', (req, res) => res.sendFile('public/index.html'))
 
 //Start listening
 app.listen(process.env.PORT, () => console.log(`Server started at: http://localhost:${config.PORT}`))
